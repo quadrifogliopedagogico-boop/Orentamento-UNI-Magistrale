@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Questionario di orientamento alla laurea magistrale: percorso adattivo per scegliere il biennio specialistico più coerente con il tuo profilo.">
+<title>Orientamento Laurea Magistrale</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{--bg:#fafbfd;--bg-warm:#f8f6f3;--bg-card:#fff;--bg-input:#f4f5f7;--accent:#3730a3;--accent-light:#6366f1;--accent-bg:rgba(55,48,163,.06);--green:#059669;--green-light:#d1fae5;--amber:#d97706;--rose:#e11d48;--cyan:#0891b2;--violet:#7c3aed;--text:#1e293b;--text-sec:#64748b;--text-mut:#94a3b8;--border:#e2e8f0;--border-light:#f1f5f9;--shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.06);--shadow-lg:0 8px 30px rgba(0,0,0,.08);--radius:16px;--radius-sm:10px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;right:0;height:280px;background:linear-gradient(180deg,rgba(55,48,163,.04) 0%,rgba(8,145,178,.015) 40%,transparent 100%);pointer-events:none;z-index:0}
+.dot-bg{position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(circle,rgba(55,48,163,.03) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;z-index:0}
+#sticky-header{position:fixed;top:0;left:0;right:0;z-index:102;background:rgba(255,255,255,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(226,232,240,.7);padding:14px 24px 10px;transition:all .3s;display:none;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+#sticky-header.compact{padding:10px 24px 8px}
+#sticky-header .ht{font-family:'Playfair Display',serif;font-size:1.15em;color:var(--accent);line-height:1.2}
+#sticky-header.compact .ht{font-size:1.05em}
+#sticky-header .hs{font-size:.78em;color:var(--text-sec);margin-top:2px}
+#sticky-header .hi{font-size:.72em;color:var(--text-mut);margin-top:3px;line-height:1.4;max-height:3em;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+#sticky-header .sn{display:none;align-items:center;gap:10px;margin-top:8px}
+#progress-container{position:fixed;top:0;left:0;right:0;z-index:101;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);padding:0;display:none}
+#pbo{height:14px;background:var(--border-light);width:100%;border-radius:0 0 7px 7px;overflow:hidden;position:relative;box-shadow:inset 0 1px 3px rgba(0,0,0,.08)}
+#pbi{height:100%;width:0%;background:linear-gradient(90deg,#3730a3,#6366f1,#0891b2,#059669);transition:width .5s cubic-bezier(.4,0,.2,1);border-radius:0 7px 7px 0;position:relative;box-shadow:0 2px 8px rgba(55,48,163,.25);overflow:hidden}
+#pbi::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:shimmer 2.2s infinite}
+@keyframes shimmer{0%{left:-100%}100%{left:100%}}
+#pbi-pct{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:.6em;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4);white-space:nowrap;z-index:2}
+.ctn{max-width:820px;margin:0 auto;padding:20px;padding-bottom:80px;position:relative;z-index:1}
+.ws{text-align:center;padding:40px 20px;animation:fu .7s ease}
+.ws h1{font-family:'Playfair Display',serif;font-size:2.2em;color:var(--text);margin-bottom:8px;line-height:1.15}
+.ws h1 span{color:var(--accent)}
+.ws .ci{font-size:3em;display:block;margin-bottom:14px;animation:pu 2.5s infinite}
+@keyframes pu{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.ws p{color:var(--text-sec);font-size:1.02em;line-height:1.7;max-width:580px;margin:0 auto 22px}
+.uf{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:520px;margin:0 auto 22px;box-shadow:var(--shadow-sm)}
+.uf label{display:block;font-size:.75em;color:var(--text-mut);margin-bottom:4px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700}
+.uf input,.uf select{width:100%;padding:10px 13px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'Source Sans 3',sans-serif;font-size:1em;margin-bottom:13px;outline:none;transition:border .3s}
+.uf input:focus,.uf select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+.uf .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:11px 26px;border:none;border-radius:var(--radius-sm);font-family:'Source Sans 3',sans-serif;font-weight:700;font-size:.92em;cursor:pointer;transition:all .25s}
+.btn-p{background:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(55,48,163,.2)}.btn-p:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(55,48,163,.3)}
+.btn-s{background:var(--bg-card);color:var(--text);border:1px solid var(--border)}.btn-s:hover{border-color:var(--accent);background:var(--accent-bg)}
+.btn-sm{padding:7px 14px;font-size:.8em}
+.btn-g{background:var(--green);color:#fff}.btn-g:hover{box-shadow:0 4px 14px rgba(5,150,105,.3)}
+.btn-w{background:var(--amber);color:#fff}.btn-w:hover{box-shadow:0 4px 14px rgba(217,119,6,.3)}
+.phase-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:20px 0}
+.phase-card{background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .3s;position:relative;box-shadow:var(--shadow-sm)}
+.phase-card:hover{transform:translateY(-3px);border-color:var(--accent-light);box-shadow:var(--shadow)}
+.phase-card .pi{font-size:1.6em;display:block;margin-bottom:6px}.phase-card .pn{font-weight:700;font-size:.85em;margin-bottom:2px}.phase-card .pd{font-size:.72em;color:var(--text-sec);line-height:1.4}
+.phase-card .pb{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62em;font-weight:800}
+.pb.ok{background:var(--green-light);color:var(--green)}.pb.no{background:var(--bg-input);color:var(--text-mut)}
+.phase-card.done{border-color:var(--green);background:linear-gradient(135deg,#f0fdf4,#f0f9ff)}.phase-card.done .pn{color:var(--green)}
+.phase-card.locked{opacity:.5;cursor:not-allowed;pointer-events:none}
+.phase-card.active{border-color:var(--accent);background:var(--accent-bg)}
+.qsec{animation:fu .4s ease}
+.qc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:10px;transition:all .4s;position:relative;overflow:hidden;box-shadow:var(--shadow-sm)}
+.qc::after{content:'';position:absolute;top:0;left:0;width:0;height:100%;transition:width .5s;z-index:0}
+.qc.ans::after{width:100%;background:linear-gradient(135deg,rgba(219,234,254,.5),rgba(209,250,229,.3))}
+.qc.ans{border-color:var(--accent-light)}.qc>*{position:relative;z-index:1}
+.qc .qnum{font-family:'JetBrains Mono',monospace;font-size:.68em;color:var(--accent);font-weight:600;margin-bottom:4px}
+.qc.ans .qnum::after{content:' \2713';color:var(--green);font-weight:800}
+.qc .qt{font-size:.95em;line-height:1.55;margin-bottom:10px}
+.ls{display:flex;gap:5px;flex-wrap:wrap}
+.lo{flex:1;min-width:60px;text-align:center;padding:8px 4px;background:var(--bg-input);border:2px solid transparent;border-radius:var(--radius-sm);cursor:pointer;transition:all .2s;user-select:none}
+.lo:hover{border-color:var(--accent-light);background:#eef2ff;transform:translateY(-1px)}
+.lo.sel{border-color:var(--accent);background:linear-gradient(135deg,#eef2ff,#ede9fe)}
+.lo .lv{font-family:'JetBrains Mono',monospace;font-size:1.2em;font-weight:700;color:var(--accent);display:block;margin-bottom:1px}
+.lo .ll{font-size:.58em;color:var(--text-sec);text-transform:uppercase;letter-spacing:.3px;font-weight:700}
+.area-sel{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:10px;cursor:pointer;transition:all .3s;position:relative}
+.area-sel:hover{border-color:var(--accent-light);box-shadow:var(--shadow)}
+.area-sel.chosen{border-color:var(--accent);background:var(--accent-bg)}
+.area-sel .as-icon{font-size:1.8em;float:left;margin-right:12px}
+.area-sel .as-name{font-weight:700;font-size:.95em;margin-bottom:2px}
+.area-sel .as-desc{font-size:.78em;color:var(--text-sec);line-height:1.5}
+.area-sel .as-pct{position:absolute;top:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:.9em;font-weight:700;color:var(--accent)}
+.area-sel .as-bar{height:4px;background:var(--bg-input);border-radius:2px;margin-top:8px;overflow:hidden}
+.area-sel .as-bf{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width .8s}
+.gate-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);padding:24px;margin:16px 0;text-align:center;box-shadow:var(--shadow)}
+.gate-card h3{font-family:'Playfair Display',serif;font-size:1.3em;color:var(--accent);margin-bottom:10px}
+.gate-card .path-badge{display:inline-block;padding:6px 18px;border-radius:20px;font-weight:800;font-size:.9em;margin:8px 0}
+.path-a{background:#d1fae5;color:#065f46}.path-b{background:#fef3c7;color:#92400e}.path-c{background:#fce7f3;color:#9d174d}
+.gate-card .tension{background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--radius-sm);padding:12px;margin-top:12px;font-size:.85em;color:#991b1b;text-align:left}
+.tb{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;padding:10px;background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.tb .btn{font-size:.76em;padding:6px 12px}
+.rp{animation:fu .5s ease}
+.rc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.rc h3{font-family:'Playfair Display',serif;font-size:1.12em;margin-bottom:10px;color:var(--accent)}
+.sbc{margin-bottom:10px}.sbl{display:flex;justify-content:space-between;margin-bottom:3px;font-size:.8em}
+.sbl span:first-child{color:var(--text);font-weight:600}.sbl span:last-child{color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:600}
+.sb{height:8px;background:var(--bg-input);border-radius:4px;overflow:hidden}
+.sbf{height:100%;border-radius:4px;transition:width 1s cubic-bezier(.4,0,.2,1);background:linear-gradient(90deg,var(--accent),var(--accent-light))}
+.cc{position:relative;height:280px;margin:14px 0}
+.nt{font-size:.9em;line-height:1.85;color:var(--text-sec);padding:20px;background:var(--bg-warm);border-radius:var(--radius-sm);border-left:4px solid var(--accent)}
+.nb{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:24px;padding:14px 18px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);position:sticky;bottom:10px;z-index:10}
+.nc{font-family:'JetBrains Mono',monospace;font-size:.82em;color:var(--text-sec);font-weight:600}
+.mo{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.3);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+.mo.act{display:flex}
+.mc{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);max-width:700px;width:100%;max-height:80vh;overflow-y:auto;padding:24px;box-shadow:var(--shadow-lg)}
+.mc h2{font-family:'Playfair Display',serif;margin-bottom:10px;color:var(--accent)}
+.mc textarea{width:100%;min-height:280px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:.75em;padding:12px;resize:vertical;outline:none}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;padding:10px 22px;border-radius:var(--radius-sm);font-size:.84em;font-weight:600;opacity:0;transition:all .4s;z-index:500;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.ph{display:none;text-align:center;margin-bottom:24px;padding-bottom:14px;border-bottom:3px solid var(--accent)}.ph h1{color:var(--accent);font-family:'Playfair Display',serif;font-size:1.6em}.ph p{color:var(--text-sec);margin-top:3px}
+.blk-label{font-size:.72em;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-mut);margin:18px 0 6px;text-align:left}
+.compare-card{background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid var(--accent-light);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.compare-card h4{color:var(--accent);font-family:'Playfair Display',serif;margin-bottom:8px}
+.st{position:fixed;bottom:20px;right:18px;z-index:200;background:var(--bg-card);border:1px solid var(--border);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1em;transition:all .3s;box-shadow:var(--shadow)}
+.st:hover{border-color:var(--accent);transform:scale(1.08)}
+@media print{body{background:#fff!important}body::before,.dot-bg{display:none!important}.tb,.st,#sticky-header,#progress-container,.no-print,.toast,.nb{display:none!important}.ctn{max-width:100%;padding:8px}.rc{break-inside:avoid;box-shadow:none!important}.ph{display:block!important}.cc{height:250px!important}}
+@media(max-width:600px){.ws h1{font-size:1.4em}.ls{flex-direction:column}.lo{min-width:unset}.phase-grid{grid-template-columns:1fr}.ctn{padding:10px;padding-bottom:80px}.uf .row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="dot-bg"></div>
+<div class="st" id="sndT" title="Audio on/off" onclick="tglSnd()">&#128266;</div>
+<div id="toast-el" class="toast"></div>
+<div id="sticky-header"><div class="ht" id="hT"></div><div class="hs" id="hS"></div><div class="hi" id="hI"></div><div class="sn" id="stickyNav"></div></div>
+<div id="progress-container"><div id="pbo"><div id="pbi"><span id="pbi-pct">0%</span></div></div></div>
+<div class="ctn" id="app"></div>
+<div class="mo" id="opM"><div class="mc"><h2>&#128203; Report Operatore</h2><p style="color:var(--text-sec);margin-bottom:10px;font-size:.84em">Testo strutturato per analisi IA</p><textarea id="opT" readonly></textarea><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn btn-p btn-sm" onclick="cpOp()">&#128203; Copia</button><button class="btn btn-g btn-sm" onclick="exMD()">Markdown</button><button class="btn btn-s btn-sm" onclick="clMo()">Chiudi</button></div></div></div>
+<input type="file" id="impI" accept=".json" onchange="hImp(event)" style="display:none">
+<input type="file" id="impTri" accept=".json" onchange="hImpTri(event)" style="display:none">
+<script>
+/* ============================================================
+   ORIENTAMENTO LAUREA MAGISTRALE — APP ADATTIVA
+   Single-file HTML/CSS/JS
+   ============================================================ */
+
+/* ===== MACRO-AREE (13) ===== */
+const AREAS=[
+{id:'ing',name:'Ingegneria e Tecnologie Avanzate',icon:'⚙️',desc:'Ingegneria civile, industriale, aerospaziale, meccanica, elettronica, gestionale e dei materiali.'},
+{id:'inf',name:'Informatica, Dati e IA',icon:'💻',desc:'Informatica, data science, cybersecurity, intelligenza artificiale, statistica e matematica applicata.'},
+{id:'vita',name:'Scienze della Vita e Biotecnologie',icon:'🧬',desc:'Biologia, biotecnologie, nutrizione, scienze alimentari e scienze naturali.'},
+{id:'terra',name:'Scienze della Terra e Ambiente',icon:'🌍',desc:'Scienze geologiche, ambientali, forestali, agrarie e zootecniche.'},
+{id:'med',name:'Medico-Sanitaria e Farmaceutica',icon:'⚕️',desc:'Farmacia, professioni sanitarie magistrali, medicina veterinaria e scienze motorie preventive.'},
+{id:'eco',name:'Economia, Management e Finanza',icon:'📊',desc:'Economia, finanza, management, scienze economico-aziendali e turismo.'},
+{id:'giu',name:'Giuridico-Politica e Relazioni Internazionali',icon:'⚖️',desc:'Scienze politiche, relazioni internazionali, pubblica amministrazione e cooperazione allo sviluppo.'},
+{id:'uma',name:'Umanistica, Lingue e Patrimonio Culturale',icon:'📜',desc:'Filologia, lingue, filosofia, storia, archeologia, traduzione e beni culturali.'},
+{id:'com',name:'Comunicazione, Media e Industrie Creative',icon:'📡',desc:'Comunicazione pubblica e d\'impresa, informazione editoriale, e-learning e media education.'},
+{id:'edu',name:'Educazione, Formazione e Scienze Pedagogiche',icon:'🎓',desc:'Programmazione educativa, formazione degli adulti, pedagogia e scienze della formazione.'},
+{id:'psi',name:'Psicologia, Scienze Sociali e Servizio Sociale',icon:'🧠',desc:'Psicologia, sociologia, servizio sociale e politiche sociali.'},
+{id:'arc',name:'Architettura, Design e Territorio',icon:'🏛️',desc:'Architettura, design, paesaggio, urbanistica e pianificazione territoriale.'},
+{id:'mot',name:'Scienze Motorie e Sport',icon:'🏃',desc:'Organizzazione e gestione dello sport, scienze e tecniche dello sport, attività motorie preventive e adattate.'}
+];
+const areaIdx=k=>AREAS.findIndex(a=>a.id===k);
+
+/* ===== MODULE A — QUESTIONNAIRE SECTIONS ===== */
+const MOD_A=[
+
+/* --- Sezione 1: Centramento sulla Triennale --- */
+{id:'centramento',title:'Centramento sulla Triennale',subtitle:'Il rapporto con il tuo percorso triennale',instruction:'Rispondi pensando alla tua esperienza concreta nel corso di laurea triennale (o equivalente). Se hai un percorso ancora in corso, rispondi sulla base di ciò che sai finora.',icon:'🎯',
+scale:[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'In parte'},{v:3,l:'Molto'},{v:4,l:'Completamente'}],
+items:[
+{n:1,t:'Ho scelto la mia triennale con piena consapevolezza delle implicazioni professionali e formative',a:'Consapevolezza'},
+{n:2,t:'Se potessi tornare indietro, rifarei la stessa scelta senza esitazioni',a:'Consapevolezza'},
+{n:3,t:'La mia triennale ha corrisposto alle aspettative che avevo prima di iscrivermi',a:'Delta Attese'},
+{n:4,t:'Ho scoperto contenuti o metodi che non mi aspettavo e che mi hanno entusiasmato',a:'Delta Attese'},
+{n:5,t:'Mi riconosco nell\'identità disciplinare che il mio percorso mi ha dato',a:'Identità'},
+{n:6,t:'Sento che la triennale ha confermato e rafforzato i miei interessi iniziali',a:'Identità'},
+{n:7,t:'C\'è stata almeno un\'area o un insegnamento che mi ha fatto pensare "avrei dovuto fare quest\'altro"',a:'Biforcazioni',r:true},
+{n:8,t:'Ho avuto periodi in cui ho seriamente considerato di cambiare percorso',a:'Biforcazioni',r:true},
+{n:9,t:'Mi sento soddisfatto/a della preparazione acquisita finora',a:'Soddisfazione'},
+{n:10,t:'Il mio percorso triennale mi ha dato strumenti concreti e spendibili',a:'Soddisfazione'},
+{n:11,t:'La mia idea di "chi voglio diventare professionalmente" è cambiata rispetto a quando mi sono iscritto/a',a:'Evoluzione',r:true},
+{n:12,t:'Oggi i miei interessi disciplinari sono significativamente diversi da quelli iniziali',a:'Evoluzione',r:true}],
+areas:{
+'Consapevolezza':{d:'Grado di consapevolezza nella scelta della triennale',i:[1,2],m:8},
+'Delta Attese':{d:'Distanza tra aspettative e realtà del percorso',i:[3,4],m:8},
+'Identità':{d:'Solidità dell\'identità disciplinare acquisita',i:[5,6],m:8},
+'Biforcazioni':{d:'Presenza di percorsi alternativi non esplorati',i:[7,8],m:8,neg:true},
+'Soddisfazione':{d:'Soddisfazione complessiva per la preparazione',i:[9,10],m:8},
+'Evoluzione':{d:'Grado di cambiamento degli interessi durante il percorso',i:[11,12],m:8,neg:true}}},
+
+/* --- Sezione 2: Locus of Control Evoluto --- */
+{id:'locus',title:'Locus of Control',subtitle:'Chi guida le tue scelte professionali?',instruction:'Esprimi il tuo grado di accordo. Rispondi pensando alla tua esperienza universitaria e alle decisioni professionali che hai già preso o stai considerando.',icon:'🧭',
+scale:[{v:0,l:'Falso'},{v:1,l:'Poco vero'},{v:2,l:'Incerto'},{v:3,l:'Vero'},{v:4,l:'Molto vero'}],
+items:[
+{n:1,t:'I risultati accademici che ho ottenuto dipendono principalmente dal mio impegno e dal mio metodo',a:'Interno'},
+{n:2,t:'Le opportunità professionali migliori arrivano per conoscenze e fortuna, non per competenza',a:'Esterno'},
+{n:3,t:'La qualità del mio futuro professionale dipende dalle scelte che faccio adesso',a:'Interno'},
+{n:4,t:'Il mercato del lavoro è troppo imprevedibile per poterlo influenzare con le proprie scelte',a:'Esterno'},
+{n:5,t:'Posso costruire un percorso coerente tra ciò che studio e ciò che farò',a:'Interno'},
+{n:6,t:'Il valore di una laurea dipende più dall\'ateneo che dalla preparazione individuale',a:'Esterno'},
+{n:7,t:'Quando non ottengo i risultati attesi, analizzo cosa posso cambiare nel mio approccio',a:'Interno'},
+{n:8,t:'In Italia il merito conta meno delle raccomandazioni',a:'Esterno'},
+{n:9,t:'Ho la capacità di adattarmi e trovare il mio spazio in un contesto professionale competitivo',a:'Interno'},
+{n:10,t:'Il sistema universitario non prepara adeguatamente al mondo del lavoro, indipendentemente dallo studente',a:'Esterno'}],
+areas:{
+'Interno':{d:'Attribuzione dei risultati a fattori personali controllabili',i:[1,3,5,7,9],m:20},
+'Esterno':{d:'Attribuzione dei risultati a fattori esterni incontrollabili',i:[2,4,6,8,10],m:20}}},
+
+/* --- Sezione 3: Stili di Coping Avanzati --- */
+{id:'coping',title:'Stili di Coping',subtitle:'Come gestisci pressione e complessità?',instruction:'Indica quanto ciascuna affermazione descrive il tuo comportamento abituale nelle situazioni accademiche e professionali difficili.',icon:'⚙️',
+scale:[{v:0,l:'Mai'},{v:1,l:'Raramente'},{v:2,l:'A volte'},{v:3,l:'Spesso'},{v:4,l:'Sempre'}],
+items:[
+{n:1,t:'Quando un progetto si complica, lo scompongo in sottoproblemi gestibili',a:'Attivo'},
+{n:2,t:'Tendo a rimandare le decisioni importanti sperando che la situazione si chiarisca da sola',a:'Evitante',r:true},
+{n:3,t:'Nei momenti di forte stress riesco a prendere distanza emotiva per ragionare lucidamente',a:'Regolazione'},
+{n:4,t:'Se il primo approccio fallisce, cambio strategia senza perdere motivazione',a:'Attivo'},
+{n:5,t:'Evito di affrontare feedback negativi finché non sono obbligato/a',a:'Evitante',r:true},
+{n:6,t:'So riconoscere quando le mie emozioni stanno influenzando le mie decisioni',a:'Regolazione'},
+{n:7,t:'Di fronte a un problema ambiguo, raccolgo informazioni sistematicamente prima di agire',a:'Attivo'},
+{n:8,t:'Quando la pressione aumenta, tendo a bloccarmi o a procrastinare',a:'Evitante',r:true},
+{n:9,t:'Uso consapevolmente tecniche di gestione dello stress (pausa, respiro, priorità)',a:'Regolazione'},
+{n:10,t:'Chiedo feedback attivamente per migliorare il mio lavoro',a:'Attivo'},
+{n:11,t:'Preferisco non espormi in situazioni dove potrei essere giudicato/a negativamente',a:'Evitante',r:true},
+{n:12,t:'Riesco a gestire simultaneamente più scadenze senza perdere la qualità del lavoro',a:'Regolazione'}],
+areas:{
+'Attivo':{d:'Fronteggiamento diretto e orientato al problema',i:[1,4,7,10],m:16},
+'Evitante':{d:'Tendenza all\'evitamento e alla procrastinazione',i:[2,5,8,11],m:16,neg:true},
+'Regolazione':{d:'Capacità di regolazione emotiva e metacognitiva',i:[3,6,9,12],m:16}}},
+
+/* --- Sezione 4: Soft Skills Avanzate --- */
+{id:'softskills',title:'Competenze Trasversali Avanzate',subtitle:'Il tuo profilo di competenze post-triennale',instruction:'Valuta il tuo livello attuale in ciascuna competenza. Rispondi sulla base della tua esperienza concreta, non di ciò che vorresti.',icon:'💎',
+scale:[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'Abbastanza'},{v:3,l:'Molto'},{v:4,l:'Pienamente'}],
+items:[
+{n:1,t:'So guidare un gruppo di lavoro verso un obiettivo condiviso',a:'Leadership'},
+{n:2,t:'Sono in grado di gestire un progetto rispettando tempi, budget e qualità',a:'Project Mgmt'},
+{n:3,t:'So negoziare posizioni diverse per raggiungere un compromesso produttivo',a:'Negoziazione'},
+{n:4,t:'So produrre un testo accademico strutturato (tesi, relazione, paper)',a:'Scrittura Accademica'},
+{n:5,t:'Costruisco e mantengo relazioni professionali utili al mio percorso',a:'Networking'},
+{n:6,t:'Riesco a vedere le connessioni tra problemi apparentemente separati',a:'Pensiero Sistemico'},
+{n:7,t:'Sono a mio agio nel prendere decisioni con informazioni incomplete',a:'Gestione Ambiguità'},
+{n:8,t:'So lavorare efficacemente con persone di background culturali diversi',a:'Comunicazione Interculturale'},
+{n:9,t:'Prendo l\'iniziativa anche quando non è esplicitamente richiesto',a:'Leadership'},
+{n:10,t:'Uso strumenti di pianificazione (Gantt, checklist, milestone) per i miei progetti',a:'Project Mgmt'},
+{n:11,t:'So gestire conversazioni difficili senza compromettere la relazione',a:'Negoziazione'},
+{n:12,t:'So citare, argomentare e strutturare un testo secondo gli standard accademici del mio campo',a:'Scrittura Accademica'},
+{n:13,t:'Partecipo attivamente a eventi, seminari o comunità professionali del mio settore',a:'Networking'},
+{n:14,t:'Considero gli effetti a lungo termine e le conseguenze non intenzionali delle decisioni',a:'Pensiero Sistemico'},
+{n:15,t:'Riesco a procedere anche quando il problema non ha una soluzione chiara e univoca',a:'Gestione Ambiguità'},
+{n:16,t:'Adatto il mio stile comunicativo all\'interlocutore e al contesto',a:'Comunicazione Interculturale'}],
+areas:{
+'Leadership':{d:'Guida, iniziativa e gestione di gruppi',i:[1,9],m:8},
+'Project Mgmt':{d:'Pianificazione e gestione operativa di progetti',i:[2,10],m:8},
+'Negoziazione':{d:'Mediazione e gestione del conflitto produttivo',i:[3,11],m:8},
+'Scrittura Accademica':{d:'Produzione testuale accademica strutturata',i:[4,12],m:8},
+'Networking':{d:'Costruzione e manutenzione di reti professionali',i:[5,13],m:8},
+'Pensiero Sistemico':{d:'Visione d\'insieme e analisi delle interconnessioni',i:[6,14],m:8},
+'Gestione Ambiguità':{d:'Capacità di operare nell\'incertezza',i:[7,15],m:8},
+'Comunicazione Interculturale':{d:'Efficacia comunicativa in contesti diversificati',i:[8,16],m:8}}},
+
+/* --- Sezione 5: Stili di Apprendimento Evoluti --- */
+{id:'apprendimento',title:'Stili di Apprendimento e Orientamento',subtitle:'Come impari e dove ti orienti: ricerca o applicazione?',instruction:'Indica con quale frequenza ti riconosci in ciascun comportamento. La sezione esplora anche la tua posizione sull\'asse ricerca ↔ applicazione.',icon:'🧩',
+scale:[{v:0,l:'Mai'},{v:1,l:'Raramente'},{v:2,l:'Qualche volta'},{v:3,l:'Spesso'},{v:4,l:'Sempre'}],
+items:[
+{n:1,t:'Preferisco imparare costruendo qualcosa piuttosto che studiando la teoria',a:'Attivo'},
+{n:2,t:'Ho bisogno di tempo per metabolizzare le informazioni prima di usarle',a:'Riflessivo'},
+{n:3,t:'Imparo meglio quando il contenuto è organizzato in framework concettuali chiari',a:'Teorico'},
+{n:4,t:'Mi interessa capire come applicare concretamente ciò che studio',a:'Pragmatico'},
+{n:5,t:'Mi entusiasma contribuire a conoscenza nuova, anche se non ha applicazione immediata',a:'Ricerca'},
+{n:6,t:'Preferisco risolvere problemi reali piuttosto che esplorare questioni teoriche aperte',a:'Applicazione'},
+{n:7,t:'In un progetto di gruppo, tendo a prendere l\'iniziativa e a proporre azioni',a:'Attivo'},
+{n:8,t:'Preferisco osservare come gli altri affrontano un problema prima di intervenire',a:'Riflessivo'},
+{n:9,t:'Cerco sempre il principio generale che spiega i casi particolari',a:'Teorico'},
+{n:10,t:'Valuto la qualità di un corso dalla sua spendibilità nel mercato del lavoro',a:'Pragmatico'},
+{n:11,t:'Mi attrae l\'idea di lavorare su una tesi che produca dati o risultati originali',a:'Ricerca'},
+{n:12,t:'Preferisco un percorso con tirocini e stage a uno focalizzato sulla tesi di ricerca',a:'Applicazione'},
+{n:13,t:'Imparo più efficacemente attraverso simulazioni, laboratori e project work',a:'Attivo'},
+{n:14,t:'Prendo appunti strutturati e li rielaboro con calma dopo le lezioni',a:'Riflessivo'},
+{n:15,t:'Mi piace scoprire le basi epistemologiche delle discipline che studio',a:'Teorico'},
+{n:16,t:'Un buon corso per me è quello che insegna competenze immediatamente utilizzabili',a:'Pragmatico'},
+{n:17,t:'Mi vedo a produrre pubblicazioni scientifiche nel mio campo',a:'Ricerca'},
+{n:18,t:'Il mio obiettivo è diventare un professionista riconosciuto nel mio settore, non un ricercatore',a:'Applicazione'}],
+areas:{
+'Attivo':{d:'Apprendimento esperienziale e diretto',i:[1,7,13],m:12},
+'Riflessivo':{d:'Apprendimento osservativo e analitico',i:[2,8,14],m:12},
+'Teorico':{d:'Apprendimento concettuale e strutturato',i:[3,9,15],m:12},
+'Pragmatico':{d:'Apprendimento orientato all\'applicazione pratica',i:[4,10,16],m:12},
+'Ricerca':{d:'Orientamento verso la ricerca e la produzione di conoscenza',i:[5,11,17],m:12},
+'Applicazione':{d:'Orientamento verso la professione e l\'applicazione',i:[6,12,18],m:12}}}
+];
+
+/* ===== MODULE B — POST-ADAPTIVE ===== */
+const MOD_B=[
+{id:'progetto_vita',title:'Progetto di Vita',subtitle:'Come vuoi vivere?',instruction:'Rispondi pensando al futuro concreto che desideri costruire. Non ci sono risposte giuste: conta la coerenza con chi sei.',icon:'🔮',
+scale:[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'Abbastanza'},{v:3,l:'Molto'},{v:4,l:'Moltissimo'}],
+items:[
+/* Mobilità */
+{n:1,t:'Preferisco restare in Lombardia per ragioni personali o familiari',a:'Locale'},
+{n:2,t:'Sono disponibile a spostarmi in tutta Italia per il percorso giusto',a:'Nazionale'},
+{n:3,t:'Un programma con doppio titolo o un\'esperienza all\'estero è un criterio importante nella mia scelta',a:'Internazionale'},
+{n:4,t:'Prenderei in considerazione una magistrale interamente all\'estero',a:'Internazionale'},
+/* Modello di vita */
+{n:5,t:'La sicurezza economica e la stabilità contrattuale sono priorità assolute',a:'Stabilità'},
+{n:6,t:'Voglio un lavoro che abbia un impatto concreto e misurabile sulla società',a:'Impatto'},
+{n:7,t:'L\'autonomia decisionale è più importante dello stipendio per me',a:'Autonomia'},
+{n:8,t:'Il riconoscimento sociale e lo status della professione contano nella mia scelta',a:'Status'},
+{n:9,t:'Cerco un equilibrio tra carriera e vita personale, anche a costo di guadagnare meno',a:'Equilibrio'},
+{n:10,t:'Sono disposto/a a sacrifici significativi nei prossimi 5 anni per costruire una carriera solida',a:'Investimento'}],
+areas:{
+'Locale':{d:'Preferenza per la Lombardia',i:[1],m:4},
+'Nazionale':{d:'Disponibilità a mobilità nazionale',i:[2],m:4},
+'Internazionale':{d:'Apertura internazionale e programmi esteri',i:[3,4],m:8},
+'Stabilità':{d:'Priorità sicurezza economica',i:[5],m:4},
+'Impatto':{d:'Priorità impatto sociale',i:[6],m:4},
+'Autonomia':{d:'Priorità autonomia decisionale',i:[7],m:4},
+'Status':{d:'Importanza riconoscimento e status',i:[8],m:4},
+'Equilibrio':{d:'Priorità work-life balance',i:[9],m:4},
+'Investimento':{d:'Disponibilità al sacrificio a breve termine',i:[10],m:4}}}
+];
+
+/* ===== SNODO — INTERESSI + CARRIERA + DIAGNOSTICA ===== */
+
+/* Blocco carriera/settore (migrato da MOD_B) */
+const SNODO_CARRIERA={
+id:'snodo_carriera',title:'Orientamento Professionale',subtitle:'Che tipo di percorso professionale cerchi?',
+instruction:'Indica quanto ciascuna affermazione ti corrisponde. Queste risposte, incrociate con il resto del profilo, alimentano la diagnostica dello Snodo.',
+icon:'💼',
+scale:[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'Abbastanza'},{v:3,l:'Molto'},{v:4,l:'Moltissimo'}],
+items:[
+/* Orientamento carriera */
+{n:1,t:'Mi attrae la carriera accademica e la possibilità di un dottorato di ricerca',a:'Ricerca'},
+{n:2,t:'Voglio diventare un professionista altamente specializzato nel mio campo',a:'Professione'},
+{n:3,t:'Mi piacerebbe avviare un\'attività imprenditoriale o lavorare come freelance',a:'Imprenditorialità'},
+{n:4,t:'Mi vedo a produrre pubblicazioni scientifiche o contribuire alla ricerca nel mio campo',a:'Ricerca'},
+{n:5,t:'Il mio obiettivo è raggiungere una posizione manageriale o di responsabilità',a:'Professione'},
+{n:6,t:'Ho già idee concrete per un progetto imprenditoriale o consulenziale',a:'Imprenditorialità'},
+/* Settore target */
+{n:7,t:'Mi vedo nel settore privato, in un\'azienda strutturata',a:'Privato'},
+{n:8,t:'Mi attrae il settore pubblico per la stabilità e l\'impatto sulla comunità',a:'Pubblico'},
+{n:9,t:'Il terzo settore è il contesto dove mi sento più coerente con i miei valori',a:'Nonprofit'},
+{n:10,t:'La libera professione mi attrae per l\'autonomia e la flessibilità',a:'Lib. Professione'},
+/* Urgenza lavorativa */
+{n:11,t:'Ho bisogno di iniziare a lavorare nel breve termine per ragioni economiche',a:'Urgenza'},
+{n:12,t:'Potrei sostenere altri due anni di studio senza difficoltà economiche rilevanti',a:'Sostenibilità'}],
+areas:{
+'Ricerca':{d:'Orientamento verso carriera accademica e ricerca',i:[1,4],m:8},
+'Professione':{d:'Orientamento verso professione specializzata',i:[2,5],m:8},
+'Imprenditorialità':{d:'Orientamento imprenditoriale e consulenziale',i:[3,6],m:8},
+'Privato':{d:'Settore privato e aziendale',i:[7],m:4},
+'Pubblico':{d:'Settore pubblico e PA',i:[8],m:4},
+'Nonprofit':{d:'Terzo settore e organizzazioni sociali',i:[9],m:4},
+'Lib. Professione':{d:'Lavoro autonomo e libera professione',i:[10],m:4},
+'Urgenza':{d:'Necessità di ingresso lavorativo a breve',i:[11],m:4},
+'Sostenibilità':{d:'Capacità di sostenere ulteriore formazione',i:[12],m:4}}}
+
+/* ===== SNODO — INTENZIONE + INTERESSI DISCIPLINARI ===== */
+/* SNODO_INTENT rimosso: il percorso A/B/C è calcolato dall'algoritmo, non dichiarato */
+
+/* Questionario breve: 2 domande per macro-area = 26 domande
+   Fornisce dati reali di interesse disciplinare per il calcolo affinità */
+const SNODO_INTERESSI={
+id:'snodo_interessi',title:'Interessi Disciplinari Magistrali',subtitle:'Cosa ti attrae davvero per il biennio?',
+instruction:'Per ciascuna area, indica quanto ti attraggono il contenuto disciplinare e lo scenario professionale. Non pensare a cosa "dovresti" scegliere: rispondi su cosa ti incuriosisce.',
+icon:'🧭',
+scale:[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'Abbastanza'},{v:3,l:'Molto'},{v:4,l:'Moltissimo'}],
+items:[
+{n:1,t:'Approfondire la progettazione ingegneristica avanzata: strutture, impianti, sistemi complessi',a:'ing'},
+{n:2,t:'Lavorare come ingegnere specializzato in industria, progettazione o consulenza tecnica',a:'ing'},
+{n:3,t:'Approfondire algoritmi, architetture software, intelligenza artificiale o analisi dei dati',a:'inf'},
+{n:4,t:'Lavorare come informatico, analista dati o esperto di sicurezza in aziende tecnologiche',a:'inf'},
+{n:5,t:'Studiare i meccanismi biologici avanzati: genomica, biotecnologie, nutrizione o scienze naturali',a:'vita'},
+{n:6,t:'Lavorare in laboratori di ricerca, aziende biotech o nel settore alimentare',a:'vita'},
+{n:7,t:'Approfondire le scienze della Terra: geologia, ambiente, agronomia o gestione forestale',a:'terra'},
+{n:8,t:'Lavorare nella tutela ambientale, in agricoltura avanzata o nella gestione del territorio',a:'terra'},
+{n:9,t:'Specializzarti in ambito sanitario o farmaceutico: clinica, prevenzione, riabilitazione o farmaci',a:'med'},
+{n:10,t:'Lavorare in ospedali, industria farmaceutica, centri di riabilitazione o sanità pubblica',a:'med'},
+{n:11,t:'Approfondire economia, finanza, gestione aziendale o sistemi turistici',a:'eco'},
+{n:12,t:'Lavorare come manager, consulente, analista finanziario o nel settore turistico',a:'eco'},
+{n:13,t:'Studiare relazioni internazionali, scienze politiche, diritto pubblico o cooperazione allo sviluppo',a:'giu'},
+{n:14,t:'Lavorare in diplomazia, organizzazioni internazionali, pubblica amministrazione o ONG',a:'giu'},
+{n:15,t:'Approfondire filologia, filosofia, lingue, archeologia, storia o traduzione specialistica',a:'uma'},
+{n:16,t:'Lavorare in ricerca umanistica, editoria, traduzione, insegnamento o gestione del patrimonio culturale',a:'uma'},
+{n:17,t:'Studiare comunicazione strategica, giornalismo, media digitali o progettazione e-learning',a:'com'},
+{n:18,t:'Lavorare in comunicazione d\'impresa, redazioni, agenzie di comunicazione o formazione digitale',a:'com'},
+{n:19,t:'Approfondire pedagogia, educazione degli adulti, coordinamento di servizi educativi',a:'edu'},
+{n:20,t:'Lavorare come pedagogista, coordinatore di servizi, formatore o orientatore professionale',a:'edu'},
+{n:21,t:'Studiare psicologia avanzata, sociologia, ricerca sociale o politiche di welfare',a:'psi'},
+{n:22,t:'Lavorare come psicologo, sociologo, ricercatore sociale o progettista di politiche sociali',a:'psi'},
+{n:23,t:'Approfondire architettura, design del prodotto, urbanistica o progettazione del paesaggio',a:'arc'},
+{n:24,t:'Lavorare come architetto, designer, urbanista o paesaggista',a:'arc'},
+{n:25,t:'Approfondire le scienze dello sport: preparazione atletica, gestione sportiva, attività motorie adattate',a:'mot'},
+{n:26,t:'Lavorare come preparatore atletico, sport manager o specialista in attività motorie preventive',a:'mot'}
+]};
+
+/* ===== DATABASE CLASSI DI LAUREA TRIENNALE ===== */
+/* c=codice, n=nome, d=diretto(aree LM), a=adiacente(aree LM) */
+const CLASSI_TRI=[
+/* --- Ingegneria --- */
+{c:'L-7',n:'Ingegneria Civile e Ambientale',d:['ing','terra'],a:['arc','inf']},
+{c:'L-8',n:'Ingegneria dell\'Informazione',d:['ing','inf'],a:['eco']},
+{c:'L-9',n:'Ingegneria Industriale',d:['ing'],a:['inf','eco','terra']},
+{c:'L-23',n:'Scienze e Tecniche dell\'Edilizia',d:['ing','arc'],a:['terra']},
+{c:'L-28',n:'Scienze e Tecnologie della Navigazione',d:['ing'],a:['terra','inf']},
+/* --- Informatica, Dati, Matematica, Fisica --- */
+{c:'L-30',n:'Scienze e Tecnologie Fisiche',d:['inf','ing'],a:['vita']},
+{c:'L-31',n:'Scienze e Tecnologie Informatiche',d:['inf'],a:['ing','eco','com']},
+{c:'L-35',n:'Scienze Matematiche',d:['inf'],a:['ing','eco']},
+{c:'L-41',n:'Statistica',d:['inf','eco'],a:['psi']},
+/* --- Scienze della Vita e Biotecnologie --- */
+{c:'L-2',n:'Biotecnologie',d:['vita','med'],a:['ing','terra']},
+{c:'L-13',n:'Scienze Biologiche',d:['vita'],a:['med','terra']},
+{c:'L-26',n:'Scienze e Tecnologie Alimentari',d:['vita','terra'],a:['eco']},
+{c:'L-27',n:'Scienze e Tecnologie Chimiche',d:['vita','ing'],a:['med','terra']},
+/* --- Scienze della Terra e Ambiente --- */
+{c:'L-25',n:'Scienze e Tecnologie Agrarie e Forestali',d:['terra'],a:['vita','eco']},
+{c:'L-32',n:'Scienze e Tecnologie per l\'Ambiente e la Natura',d:['terra','vita'],a:['ing']},
+{c:'L-34',n:'Scienze Geologiche',d:['terra'],a:['ing']},
+/* --- Medico-Sanitaria --- */
+{c:'L/SNT1',n:'Professioni Sanitarie Infermieristiche e Ostetriche',d:['med'],a:['psi','edu']},
+{c:'L/SNT2',n:'Professioni Sanitarie della Riabilitazione',d:['med','mot'],a:['psi']},
+{c:'L/SNT3',n:'Professioni Sanitarie Tecniche',d:['med'],a:['vita','inf']},
+{c:'L/SNT4',n:'Professioni Sanitarie della Prevenzione',d:['med'],a:['terra','psi']},
+{c:'LM-41',n:'Medicina e Chirurgia (ciclo unico)',d:['med'],a:['vita','psi']},
+{c:'LM-46',n:'Odontoiatria e Protesi Dentaria (ciclo unico)',d:['med'],a:[]},
+{c:'LM-13cu',n:'Farmacia (ciclo unico)',d:['med','vita'],a:['eco']},
+{c:'LM-42cu',n:'Medicina Veterinaria (ciclo unico)',d:['med','terra'],a:['vita']},
+/* --- Economia --- */
+{c:'L-15',n:'Scienze del Turismo',d:['eco'],a:['com','uma']},
+{c:'L-16',n:'Scienze dell\'Amministrazione e dell\'Organizzazione',d:['eco','giu'],a:['psi']},
+{c:'L-18',n:'Scienze dell\'Economia e della Gestione Aziendale',d:['eco'],a:['giu','inf','com']},
+{c:'L-33',n:'Scienze Economiche',d:['eco'],a:['giu','inf']},
+/* --- Giuridico-Politica --- */
+{c:'L-14',n:'Scienze dei Servizi Giuridici',d:['giu'],a:['eco','psi']},
+{c:'L-36',n:'Scienze Politiche e delle Relazioni Internazionali',d:['giu'],a:['eco','psi','com']},
+{c:'L-37',n:'Scienze Sociali per la Cooperazione, lo Sviluppo e la Pace',d:['giu','psi'],a:['edu']},
+{c:'LMG/01',n:'Giurisprudenza (ciclo unico)',d:['giu'],a:['eco']},
+/* --- Umanistica e Lingue --- */
+{c:'L-1',n:'Beni Culturali',d:['uma','arc'],a:['com']},
+{c:'L-3',n:'Discipline delle Arti Figurative, della Musica, dello Spettacolo e della Moda',d:['uma','com','arc'],a:['edu']},
+{c:'L-5',n:'Filosofia',d:['uma'],a:['edu','psi','com']},
+{c:'L-6',n:'Geografia',d:['uma','terra'],a:['arc']},
+{c:'L-10',n:'Lettere',d:['uma'],a:['com','edu']},
+{c:'L-11',n:'Lingue e Culture Moderne',d:['uma'],a:['com','eco']},
+{c:'L-12',n:'Mediazione Linguistica',d:['uma'],a:['com','giu']},
+{c:'L-42',n:'Storia',d:['uma'],a:['giu','edu']},
+{c:'L-43',n:'Tecnologie per la Conservazione e il Restauro dei Beni Culturali',d:['uma','arc'],a:['vita']},
+/* --- Comunicazione --- */
+{c:'L-20',n:'Scienze della Comunicazione',d:['com'],a:['uma','eco','edu','psi']},
+/* --- Educazione --- */
+{c:'L-19',n:'Scienze dell\'Educazione e della Formazione',d:['edu'],a:['psi','com','uma']},
+{c:'LM-85bis',n:'Scienze della Formazione Primaria (ciclo unico)',d:['edu'],a:['psi']},
+/* --- Psicologia e Scienze Sociali --- */
+{c:'L-24',n:'Scienze e Tecniche Psicologiche',d:['psi'],a:['edu','med','com']},
+{c:'L-39',n:'Servizio Sociale',d:['psi','giu'],a:['edu']},
+{c:'L-40',n:'Sociologia',d:['psi'],a:['giu','com','eco']},
+/* --- Architettura e Design --- */
+{c:'L-4',n:'Disegno Industriale',d:['arc'],a:['com','ing']},
+{c:'L-17',n:'Scienze dell\'Architettura',d:['arc'],a:['ing','terra','uma']},
+{c:'L-21',n:'Scienze della Pianificazione Territoriale, Urbanistica, Paesaggistica e Ambientale',d:['arc','terra'],a:['ing']},
+/* --- Scienze Motorie --- */
+{c:'L-22',n:'Scienze delle Attività Motorie e Sportive',d:['mot'],a:['med','edu','eco']},
+/* --- AFAM I Livello --- */
+{c:'AFAM-AV',n:'Diploma Acc. I Livello — Arti Visive',d:['arc','uma'],a:['com']},
+{c:'AFAM-DES',n:'Diploma Acc. I Livello — Design',d:['arc','com'],a:['uma']},
+{c:'AFAM-MUS',n:'Diploma Acc. I Livello — Musica',d:['uma'],a:['com','edu']},
+{c:'AFAM-COM',n:'Diploma Acc. I Livello — Comunicazione e Didattica dell\'Arte',d:['com','uma'],a:['edu','arc']},
+{c:'AFAM-REST',n:'Diploma Acc. I Livello — Restauro',d:['uma','arc'],a:['vita']},
+/* --- Altro --- */
+{c:'ESTERO',n:'Titolo estero equivalente',d:[],a:[]},
+{c:'ALTRO',n:'Altra classe non in elenco',d:[],a:[]}
+];
+function getClasseTri(code){return CLASSI_TRI.find(c=>c.c===code)||null}
+function getTriMapping(code){
+  const cl=getClasseTri(code);
+  if(!cl) return {direct:[],adjacent:[]};
+  return {direct:cl.d,adjacent:cl.a};
+}
+
+/* ===== LM DATABASE ===== */
+/* Each record: c=codice, n=nome, a=area_id,
+   cur=curiosità, pro=scenario professionale,
+   met=metodologia, ctx=contesto, com=comunità */
+const LM_DB=[
+/* --- Ingegneria e Tecnologie Avanzate (ing) --- */
+{c:'LM-4',n:'Architettura e Ingegneria Edile-Architettura',a:'ing',cur:'l\'integrazione tra progettazione architettonica e competenze ingegneristiche strutturali',pro:'ingegnere edile-architetto in studi professionali, imprese di costruzione o enti pubblici',met:'progettazione integrata, BIM, calcolo strutturale e normativa edilizia',ctx:'studi di progettazione, cantieri, uffici tecnici comunali o imprese edili',com:'la comunità dei professionisti dell\'edilizia dove tecnica e progetto si incontrano'},
+{c:'LM-20',n:'Ingegneria Aerospaziale e Astronautica',a:'ing',cur:'la progettazione di velivoli, satelliti, propulsori e sistemi spaziali',pro:'ingegnere aerospaziale in industria aeronautica, agenzie spaziali o difesa',met:'fluidodinamica computazionale, meccanica del volo e testing strutturale avanzato',ctx:'centri ricerca aerospaziali, industria aeronautica, agenzie come ESA e ASI',com:'la comunità degli ingegneri aerospaziali dove precisione e innovazione sono imperativi'},
+{c:'LM-21',n:'Ingegneria Biomedica',a:'ing',cur:'l\'applicazione delle tecnologie ingegneristiche alla diagnosi, terapia e riabilitazione',pro:'ingegnere biomedico in aziende biomedicali, ospedali o centri di ricerca',met:'modellazione di sistemi biologici, progettazione di dispositivi medici e imaging diagnostico',ctx:'ospedali, aziende di dispositivi medici, laboratori di biomeccanica',com:'la comunità interdisciplinare tra ingegneria e medicina clinica'},
+{c:'LM-22',n:'Ingegneria Chimica',a:'ing',cur:'i processi di trasformazione chimica industriale e le tecnologie di processo',pro:'ingegnere chimico in impianti industriali, settore energetico o ambientale',met:'termodinamica, fenomeni di trasporto, simulazione di processo e scale-up industriale',ctx:'impianti chimici, raffinerie, aziende farmaceutiche o centri R&D',com:'la comunità degli ingegneri di processo dove efficienza e sostenibilità si integrano'},
+{c:'LM-23',n:'Ingegneria Civile',a:'ing',cur:'la progettazione e costruzione di infrastrutture, ponti, strade e opere idrauliche',pro:'ingegnere civile in studi di progettazione, imprese di costruzione o enti pubblici',met:'geotecnica, idraulica, scienza delle costruzioni e progettazione sismica',ctx:'cantieri infrastrutturali, uffici tecnici, società di ingegneria',com:'la comunità degli ingegneri civili che costruisce il territorio fisico'},
+{c:'LM-25',n:'Ingegneria dell\'Automazione',a:'ing',cur:'i sistemi di controllo automatico, la robotica e l\'automazione industriale',pro:'ingegnere dell\'automazione in industria manifatturiera, robotica o domotica',met:'teoria dei sistemi, controllo ottimo, modellazione e simulazione dinamica',ctx:'stabilimenti automatizzati, aziende di robotica, centri R&D',com:'la comunità degli ingegneri che progettano macchine intelligenti'},
+{c:'LM-26',n:'Ingegneria della Sicurezza',a:'ing',cur:'la prevenzione dei rischi industriali, ambientali e la sicurezza degli impianti',pro:'ingegnere della sicurezza in stabilimenti industriali, enti certificatori o PA',met:'analisi del rischio, normativa tecnica, ingegneria antincendio e prevenzione',ctx:'impianti industriali, vigili del fuoco, enti di certificazione e assicurazioni',com:'la comunità dei professionisti della sicurezza e prevenzione industriale'},
+{c:'LM-27',n:'Ingegneria delle Telecomunicazioni',a:'ing',cur:'le reti di comunicazione, i sistemi wireless, il 5G/6G e le tecnologie di trasmissione',pro:'ingegnere delle telecomunicazioni in operatori, aziende tech o enti regolatori',met:'elaborazione dei segnali, progettazione di reti e protocolli di comunicazione',ctx:'operatori telecom, aziende tech, centri di ricerca sulle comunicazioni',com:'la comunità degli ingegneri che progettano le infrastrutture della connessione globale'},
+{c:'LM-28',n:'Ingegneria Elettrica',a:'ing',cur:'i sistemi elettrici di potenza, le energie rinnovabili e le smart grid',pro:'ingegnere elettrico in utility energetiche, aziende manifatturiere o progettazione',met:'analisi dei circuiti di potenza, progettazione di impianti e simulazione energetica',ctx:'aziende energetiche, utility, studi di progettazione elettrica',com:'la comunità degli ingegneri elettrici che gestisce la transizione energetica'},
+{c:'LM-29',n:'Ingegneria Elettronica',a:'ing',cur:'la progettazione di circuiti, microprocessori, sensori e sistemi embedded',pro:'ingegnere elettronico in aziende di semiconduttori, automotive o biomedicale',met:'progettazione VLSI, elettronica analogica e digitale, testing e prototipazione',ctx:'aziende di semiconduttori, centri R&D, industria automotive e biomedicale',com:'la comunità degli ingegneri elettronici che progetta i componenti del mondo digitale'},
+{c:'LM-30',n:'Ingegneria Energetica e Nucleare',a:'ing',cur:'i sistemi energetici convenzionali e avanzati, inclusa la fusione e il nucleare',pro:'ingegnere energetico in utility, aziende di consulenza o enti di ricerca',met:'termodinamica avanzata, fisica del reattore, analisi energetica di sistema',ctx:'centrali energetiche, enti di ricerca nucleare, società di consulenza energetica',com:'la comunità degli ingegneri energetici impegnata nella transizione ecologica'},
+{c:'LM-31',n:'Ingegneria Gestionale',a:'ing',cur:'l\'ottimizzazione dei processi produttivi e organizzativi con metodi quantitativi',pro:'ingegnere gestionale in consulting, industria manifatturiera o finanza quantitativa',met:'ricerca operativa, analisi dei processi, supply chain management e lean',ctx:'società di consulenza, direzioni operations, aziende manifatturiere',com:'la comunità degli ingegneri gestionali che unisce competenza tecnica e visione organizzativa'},
+{c:'LM-33',n:'Ingegneria Meccanica',a:'ing',cur:'la progettazione meccanica, i materiali avanzati e i sistemi termomeccanici',pro:'ingegnere meccanico in automotive, manifattura avanzata o energie',met:'CAD/CAE, meccanica dei materiali, termofluidodinamica e progettazione strutturale',ctx:'industria automotive, manifattura avanzata, studi di progettazione meccanica',com:'la comunità degli ingegneri meccanici che progetta macchine e sistemi fisici complessi'},
+{c:'LM-34',n:'Ingegneria Navale',a:'ing',cur:'la progettazione di navi, imbarcazioni e strutture offshore',pro:'ingegnere navale in cantieri, compagnie di navigazione o enti classificatori',met:'architettura navale, idrodinamica, progettazione strutturale marina',ctx:'cantieri navali, registri di classificazione, compagnie marittime',com:'la comunità degli ingegneri navali dove tradizione marinara e tecnologia avanzata convergono'},
+{c:'LM-35',n:'Ingegneria per l\'Ambiente e il Territorio',a:'ing',cur:'le tecnologie per la tutela ambientale, la bonifica e la gestione del territorio',pro:'ingegnere ambientale in enti pubblici, aziende di consulenza o utility',met:'modellazione ambientale, valutazione di impatto, tecnologie di depurazione e bonifica',ctx:'agenzie ambientali, studi di consulenza, utility idriche e di gestione rifiuti',com:'la comunità degli ingegneri ambientali che coniuga tecnica e sostenibilità'},
+{c:'LM-53',n:'Scienza e Ingegneria dei Materiali',a:'ing',cur:'i materiali avanzati: nanotecnologie, biomateriali, compositi e materiali smart',pro:'ingegnere dei materiali in aziende high-tech, centri di ricerca o biomedicale',met:'caratterizzazione sperimentale, modellazione atomistica e testing meccanico',ctx:'laboratori di ricerca, industria aerospaziale e biomedicale, aziende di materiali avanzati',com:'la comunità degli scienziati dei materiali che crea la materia del futuro'},
+
+/* --- Informatica, Dati e IA (inf) --- */
+{c:'LM-18',n:'Informatica',a:'inf',cur:'gli algoritmi avanzati, i linguaggi formali, i sistemi distribuiti e l\'architettura software',pro:'informatico in aziende tech, centri R&D o come sviluppatore senior / architect',met:'progettazione di algoritmi, sviluppo software, verifica formale e analisi computazionale',ctx:'aziende tech, startup, centri di ricerca in informatica',com:'la comunità degli informatici dove rigore formale e creatività algoritmica si incontrano'},
+{c:'LM-32',n:'Ingegneria Informatica',a:'inf',cur:'i sistemi informatici complessi: architetture, reti, sistemi embedded e cloud',pro:'ingegnere informatico in aziende tech, infrastrutture IT o cybersecurity',met:'progettazione di sistemi, architetture distribuite, sicurezza e reti',ctx:'aziende IT, telco, system integrators, centri di supercalcolo',com:'la comunità degli ingegneri informatici che costruisce le infrastrutture digitali'},
+{c:'LM-40',n:'Matematica',a:'inf',cur:'le strutture matematiche pure e applicate: algebra, analisi, geometria e topologia',pro:'matematico in ricerca accademica, finanza quantitativa o data science',met:'dimostrazione formale, modellazione astratta e analisi funzionale',ctx:'università, centri di ricerca, banche d\'investimento o aziende tech',com:'la comunità dei matematici dove il rigore logico è il valore supremo'},
+{c:'LM-44',n:'Modellistica Matematico-Fisica per l\'Ingegneria',a:'inf',cur:'la modellazione matematica di fenomeni fisici e ingegneristici complessi',pro:'modellista in centri di ricerca, aziende di simulazione o industria avanzata',met:'equazioni differenziali, metodi numerici, simulazione computazionale',ctx:'centri di calcolo, aziende di simulazione, laboratori di ricerca applicata',com:'la comunità dei modellisti che traduce la realtà fisica in equazioni risolvibili'},
+{c:'LM-66',n:'Sicurezza Informatica',a:'inf',cur:'la protezione dei sistemi informatici, la crittografia e la cyber-resilienza',pro:'esperto di cybersecurity in aziende, enti governativi o consulenza specializzata',met:'penetration testing, analisi del rischio IT, crittografia e forensics digitale',ctx:'SOC aziendali, società di consulenza, agenzie governative di cybersecurity',com:'la comunità dei professionisti della sicurezza che difende l\'infrastruttura digitale'},
+{c:'LM-82',n:'Scienze Statistiche',a:'inf',cur:'i metodi statistici per l\'analisi dei dati, la modellazione e l\'inferenza',pro:'statistico o data scientist in aziende, istituti di ricerca o PA',met:'inferenza statistica, modelli predittivi, analisi bayesiana e campionamento',ctx:'istituti statistici, aziende data-driven, centri di ricerca epidemiologica',com:'la comunità degli statistici che estrae conoscenza dai dati'},
+{c:'LM-83',n:'Scienze Statistiche Attuariali e Finanziarie',a:'inf',cur:'la modellazione del rischio finanziario e assicurativo con metodi quantitativi',pro:'attuario o analista quantitativo in assicurazioni, banche o fondi pensione',met:'calcolo attuariale, modelli stocastici, pricing di derivati e risk management',ctx:'compagnie assicurative, banche, fondi pensione, autorità di vigilanza',com:'la comunità degli attuari che quantifica e gestisce il rischio economico'},
+{c:'LM-91',n:'Tecniche e Metodi per la Società dell\'Informazione',a:'inf',cur:'le metodologie per progettare servizi digitali e sistemi informativi complessi',pro:'progettista di servizi digitali in PA, aziende tech o consulenza IT',met:'design dei servizi, architettura dell\'informazione, UX research e data governance',ctx:'PA digitale, società di consulenza, aziende che progettano piattaforme digitali',com:'la comunità dei progettisti dell\'informazione che pensa i servizi digitali di domani'},
+
+/* --- Scienze della Vita e Biotecnologie (vita) --- */
+{c:'LM-6',n:'Biologia',a:'vita',cur:'i meccanismi molecolari, cellulari e organismici della vita',pro:'biologo in laboratori di ricerca, ospedali, aziende biotech o agenzie ambientali',met:'biologia sperimentale, genomica, proteomica e microscopia avanzata',ctx:'laboratori universitari, aziende biotech, ospedali o agenzie ambientali',com:'la comunità dei biologi che esplora i meccanismi fondamentali del vivente'},
+{c:'LM-7',n:'Biotecnologie Agrarie',a:'vita',cur:'le applicazioni biotecnologiche al miglioramento delle piante e alla sicurezza alimentare',pro:'biotecnologo agrario in aziende sementiere, centri di ricerca agraria o enti pubblici',met:'genomica vegetale, breeding assistito da marcatori, bioinformatica agraria',ctx:'centri di ricerca agraria, aziende sementiere, organizzazioni internazionali (FAO)',com:'la comunità dei biotecnologi che lavora per la sicurezza alimentare globale'},
+{c:'LM-8',n:'Biotecnologie Industriali',a:'vita',cur:'la produzione di biomolecole, biocarburanti e materiali biologici su scala industriale',pro:'biotecnologo industriale in aziende chimiche, farmaceutiche o green-tech',met:'fermentazione industriale, ingegneria metabolica e scale-up di bioprocessi',ctx:'aziende chimiche e farmaceutiche, startup biotech, impianti di bioproduzione',com:'la comunità dei biotecnologi industriali che costruisce la bioeconomia'},
+{c:'LM-9',n:'Biotecnologie Mediche, Veterinarie e Farmaceutiche',a:'vita',cur:'lo sviluppo di terapie avanzate, vaccini, diagnostica molecolare e farmaci biologici',pro:'biotecnologo in industria farmaceutica, centri di ricerca clinica o diagnostica',met:'ingegneria genetica, colture cellulari, analisi molecolare e trial clinici',ctx:'industria farmaceutica, ospedali di ricerca, aziende di diagnostica',com:'la comunità dei biotecnologi medici che traduce la scienza in cura'},
+{c:'LM-60',n:'Scienze della Natura',a:'vita',cur:'la diversità biologica, l\'evoluzione e i processi ecologici nei sistemi naturali',pro:'naturalista in parchi, musei, agenzie ambientali o divulgazione scientifica',met:'tassonomia, ecologia quantitativa, conservazione e monitoraggio ambientale',ctx:'parchi naturali, musei di storia naturale, agenzie ambientali, ONG',com:'la comunità dei naturalisti che studia e protegge la biodiversità'},
+{c:'LM-61',n:'Scienze della Nutrizione Umana',a:'vita',cur:'la biochimica della nutrizione, le diete cliniche e la nutrizione di popolazione',pro:'nutrizionista in ospedali, aziende alimentari, centri sportivi o ricerca',met:'analisi dietetica, metabolomica, studi clinici nutrizionali e epidemiologia',ctx:'ospedali, centri di ricerca nutrizionale, aziende alimentari, sport',com:'la comunità degli scienziati della nutrizione che connette cibo e salute'},
+{c:'LM-70',n:'Scienze e Tecnologie Alimentari',a:'vita',cur:'la trasformazione, conservazione e sicurezza degli alimenti lungo la filiera',pro:'tecnologo alimentare in industria alimentare, enti di controllo o ricerca',met:'analisi chimica degli alimenti, tecnologie di processo, HACCP e qualità',ctx:'industria alimentare, laboratori di analisi, enti di certificazione',com:'la comunità dei tecnologi alimentari che garantisce qualità e sicurezza del cibo'},
+
+/* --- Scienze della Terra e Ambiente (terra) --- */
+{c:'LM-69',n:'Scienze e Tecnologie Agrarie',a:'terra',cur:'i sistemi produttivi agricoli avanzati, la precision farming e l\'agroecologia',pro:'agronomo in aziende agricole, enti di ricerca, cooperazione internazionale',met:'agronomia di precisione, fisiologia vegetale applicata, gestione territoriale',ctx:'aziende agricole avanzate, consorzi agrari, centri ricerca, FAO',com:'la comunità degli agronomi che modernizza la produzione agricola'},
+{c:'LM-73',n:'Scienze e Tecnologie Forestali e Ambientali',a:'terra',cur:'la gestione sostenibile delle foreste, la filiera legno e il ripristino ecologico',pro:'forestale in enti parco, agenzie regionali, cooperazione o industria del legno',met:'selvicoltura, telerilevamento, pianificazione forestale e inventari ambientali',ctx:'enti parco, regioni, consorzi forestali, aziende della filiera legno',com:'la comunità dei forestali che gestisce il patrimonio boschivo e la biodiversità'},
+{c:'LM-74',n:'Scienze e Tecnologie Geologiche',a:'terra',cur:'la struttura della Terra, i rischi geologici, le risorse minerarie e idriche',pro:'geologo in studi professionali, compagnie minerarie, enti di protezione civile',met:'rilevamento geologico, geofisica, geochimica e modellazione dei rischi',ctx:'studi geologici, compagnie oil&gas, protezione civile, enti di bonifica',com:'la comunità dei geologi che legge la storia e i rischi del pianeta'},
+{c:'LM-75',n:'Scienze e Tecnologie per l\'Ambiente e il Territorio',a:'terra',cur:'il monitoraggio, la gestione e la riqualificazione degli ambienti naturali e antropizzati',pro:'ambientalista in agenzie ambientali, consulenza, PA o ONG',met:'analisi ambientale, GIS, valutazione di impatto e tecnologie di bonifica',ctx:'agenzie ambientali (ARPA), studi di consulenza, uffici tecnici comunali',com:'la comunità dei professionisti ambientali che monitora e ripristina ecosistemi'},
+{c:'LM-86',n:'Scienze Zootecniche e Tecnologie Animali',a:'terra',cur:'la gestione degli allevamenti, il benessere animale e le produzioni zootecniche sostenibili',pro:'zootecnico in aziende di allevamento, mangimistica, enti di ricerca',met:'genetica animale, nutrizione zootecnica, gestione aziendale e welfare assessment',ctx:'allevamenti, aziende mangimistiche, centri di ricerca, consorzi di tutela',com:'la comunità degli zootecnici che bilancia produttività e benessere animale'},
+
+/* --- Medico-Sanitaria e Farmaceutica (med) --- */
+{c:'LM-13',n:'Farmacia e Farmacia Industriale',a:'med',cur:'lo sviluppo, la produzione e la dispensazione dei farmaci',pro:'farmacista in farmacia, industria farmaceutica, enti regolatori o ricerca',met:'chimica farmaceutica, farmacologia, tecnologia farmaceutica e affari regolatori',ctx:'farmacie, industria farmaceutica, AIFA, laboratori di ricerca',com:'la comunità dei farmacisti e scienziati farmaceutici che porta i farmaci dal laboratorio al paziente'},
+{c:'LM-42',n:'Medicina Veterinaria',a:'med',cur:'la salute animale, la sicurezza alimentare di origine animale e le zoonosi',pro:'veterinario in clinica, ASL, industria alimentare o ricerca',met:'clinica medica e chirurgica veterinaria, ispezione degli alimenti, epidemiologia',ctx:'cliniche veterinarie, ASL, aziende zootecniche, centri di ricerca',com:'la comunità dei veterinari che tutela salute animale e sicurezza alimentare'},
+{c:'LM/SNT1',n:'Scienze Infermieristiche e Ostetriche',a:'med',cur:'la gestione avanzata dell\'assistenza infermieristica e ostetrica e la leadership sanitaria',pro:'coordinatore infermieristico, dirigente sanitario o ricercatore in nursing',met:'evidence-based nursing, management sanitario, ricerca clinica infermieristica',ctx:'ospedali, ASL, università, enti di formazione sanitaria',com:'la comunità dei professionisti infermieristici che guida l\'evoluzione dell\'assistenza'},
+{c:'LM/SNT2',n:'Scienze Riabilitative delle Professioni Sanitarie',a:'med',cur:'il coordinamento e l\'innovazione nei percorsi riabilitativi complessi',pro:'coordinatore riabilitativo, dirigente di servizi riabilitativi o ricercatore',met:'management riabilitativo, outcome research, progettazione di percorsi assistenziali',ctx:'strutture riabilitative, ASL, centri di ricerca, università',com:'la comunità dei professionisti della riabilitazione che coordina percorsi di cura complessi'},
+{c:'LM/SNT3',n:'Scienze delle Professioni Sanitarie Tecniche',a:'med',cur:'il management e l\'innovazione nelle professioni sanitarie tecniche (radiologia, laboratorio)',pro:'coordinatore tecnico-sanitario, dirigente di servizi diagnostici o formatore',met:'management dei servizi diagnostici, health technology assessment, formazione professionale',ctx:'laboratori diagnostici, servizi di radiologia, enti di formazione sanitaria',com:'la comunità dei professionisti tecnici sanitari che coordina i servizi diagnostici'},
+{c:'LM/SNT4',n:'Scienze delle Professioni Sanitarie della Prevenzione',a:'med',cur:'la progettazione e il coordinamento di interventi di prevenzione e sanità pubblica',pro:'dirigente della prevenzione in ASL, agenzie sanitarie o organizzazioni internazionali',met:'epidemiologia, analisi del rischio sanitario, programmazione della prevenzione',ctx:'dipartimenti di prevenzione ASL, INAIL, ISS, organizzazioni sanitarie internazionali',com:'la comunità dei professionisti della prevenzione che protegge la salute pubblica'},
+
+/* --- Economia, Management e Finanza (eco) --- */
+{c:'LM-16',n:'Finanza',a:'eco',cur:'i mercati finanziari, la valutazione degli investimenti e la gestione del rischio',pro:'analista finanziario, gestore patrimoniale o risk manager in banche e fondi',met:'modelli di pricing, analisi fondamentale, finanza quantitativa e risk assessment',ctx:'banche d\'investimento, SGR, società di consulenza finanziaria, Borsa',com:'la comunità dei professionisti della finanza che alloca capitali e gestisce rischio'},
+{c:'LM-49',n:'Progettazione e Gestione dei Sistemi Turistici',a:'eco',cur:'la progettazione di destinazioni e prodotti turistici sostenibili e innovativi',pro:'tourism manager in DMO, catene alberghiere, agenzie di sviluppo territoriale',met:'destination management, marketing territoriale, analisi dei flussi turistici',ctx:'DMO, catene alberghiere, enti di promozione, organizzazioni internazionali del turismo',com:'la comunità dei professionisti del turismo che progetta esperienze e valorizza territori'},
+{c:'LM-56',n:'Scienze dell\'Economia',a:'eco',cur:'le teorie e le politiche economiche: macroeconomia, sviluppo e politica fiscale',pro:'economista in centri di ricerca, banche centrali, PA o organismi internazionali',met:'econometria, modellazione macroeconomica, analisi delle politiche pubbliche',ctx:'banche centrali, centri studi, organismi internazionali (FMI, BCE), università',com:'la comunità degli economisti che analizza e propone politiche per la società'},
+{c:'LM-76',n:'Scienze Economiche per l\'Ambiente e la Cultura',a:'eco',cur:'l\'economia dei beni culturali, la valorizzazione del patrimonio e l\'economia ambientale',pro:'economista della cultura in musei, fondazioni, PA o consulenza',met:'valutazione economica dei beni culturali, economia ambientale, impact assessment',ctx:'fondazioni culturali, musei, enti di valorizzazione, PA e UNESCO',com:'la comunità degli economisti che coniuga valore economico e culturale'},
+{c:'LM-77',n:'Scienze Economico-Aziendali',a:'eco',cur:'la gestione strategica delle organizzazioni: marketing, HR, operations e controllo di gestione',pro:'manager, consulente aziendale, controller o responsabile marketing',met:'business analysis, strategic management, accounting e business intelligence',ctx:'aziende, società di consulenza, startup, multinazionali',com:'la comunità dei manager e consulenti che guida le organizzazioni verso i risultati'},
+
+/* --- Giuridico-Politica e Relazioni Internazionali (giu) --- */
+{c:'LM-52',n:'Relazioni Internazionali',a:'giu',cur:'le dinamiche geopolitiche, i conflitti, la diplomazia e le organizzazioni internazionali',pro:'diplomatico, analista geopolitico o funzionario di organizzazioni internazionali',met:'analisi geopolitica, diritto internazionale, negoziazione multilaterale',ctx:'ministeri degli esteri, ONU, NATO, UE, think tank e ONG internazionali',com:'la comunità degli internazionalisti che naviga la complessità geopolitica globale'},
+{c:'LM-62',n:'Scienze della Politica',a:'giu',cur:'i sistemi politici, i processi democratici, le campagne elettorali e la governance',pro:'analista politico, consulente parlamentare o funzionario di partito / PA',met:'scienza politica comparata, analisi elettorale, political communication',ctx:'partiti, parlamenti, centri studi, fondazioni politiche, media',com:'la comunità dei politologi che analizza e interpreta i processi democratici'},
+{c:'LM-63',n:'Scienze delle Pubbliche Amministrazioni',a:'giu',cur:'la modernizzazione della PA, il management pubblico e le riforme istituzionali',pro:'dirigente pubblico, funzionario di enti locali o consulente per la PA',met:'public management, diritto amministrativo, analisi delle politiche pubbliche',ctx:'ministeri, regioni, comuni, autorità indipendenti, società di consulenza per la PA',com:'la comunità dei professionisti che modernizza e gestisce la macchina pubblica'},
+{c:'LM-81',n:'Scienze per la Cooperazione allo Sviluppo',a:'giu',cur:'le strategie di sviluppo sostenibile, la riduzione della povertà e la cooperazione internazionale',pro:'cooperante internazionale in ONG, agenzie ONU, AICS o fondazioni',met:'project cycle management, valutazione d\'impatto, analisi dei bisogni e approccio partecipativo',ctx:'ONG, agenzie ONU (UNDP, UNICEF), cooperazione bilaterale, fondazioni',com:'la comunità dei cooperanti che lavora per lo sviluppo sostenibile nel mondo'},
+{c:'LM-87',n:'Servizio Sociale e Politiche Sociali',a:'giu',cur:'la progettazione e valutazione di politiche sociali e sistemi di welfare',pro:'dirigente di servizi sociali, progettista di welfare o policy analyst',met:'analisi delle politiche sociali, progettazione partecipata, valutazione dei servizi',ctx:'comuni, ASL, cooperative sociali, ministero del lavoro, enti di ricerca',com:'la comunità dei professionisti del welfare che progetta politiche per l\'inclusione'},
+{c:'LM-90',n:'Studi Europei',a:'giu',cur:'le istituzioni europee, il processo di integrazione, le politiche UE e il diritto comunitario',pro:'funzionario europeo, consulente per fondi UE o lobbista a Bruxelles',met:'diritto europeo, analisi delle politiche comunitarie, europrogettazione',ctx:'istituzioni UE, rappresentanze permanenti, studi legali internazionali, ONG europee',com:'la comunità degli europeisti che naviga e influenza le politiche dell\'Unione'},
+
+/* --- Umanistica, Lingue e Patrimonio Culturale (uma) --- */
+{c:'LM-1',n:'Antropologia Culturale ed Etnologia',a:'uma',cur:'le pratiche culturali, i rituali, le strutture simboliche e la diversità delle società umane',pro:'antropologo in musei, ONG, cooperazione internazionale o ricerca accademica',met:'etnografia sul campo, osservazione partecipante, analisi qualitativa e comparativa',ctx:'università, musei etnografici, ONG, centri di ricerca e cooperazione',com:'la comunità degli antropologi che esplora la diversità culturale umana'},
+{c:'LM-2',n:'Archeologia',a:'uma',cur:'le civiltà antiche attraverso lo scavo, l\'analisi dei reperti e l\'interpretazione dei contesti',pro:'archeologo in soprintendenze, musei, cantieri di scavo o ricerca accademica',met:'scavo stratigrafico, datazione, archeometria e GIS applicato ai beni culturali',ctx:'soprintendenze, musei, cantieri archeologici, università e centri di restauro',com:'la comunità degli archeologi che ricostruisce il passato attraverso la cultura materiale'},
+{c:'LM-5',n:'Archivistica e Biblioteconomia',a:'uma',cur:'la gestione, conservazione e valorizzazione di archivi, biblioteche e patrimoni documentari',pro:'archivista o bibliotecario in istituzioni culturali, PA o aziende',met:'catalogazione, digitalizzazione, gestione documentale e information science',ctx:'archivi di stato, biblioteche, fondazioni culturali, aziende con patrimoni documentari',com:'la comunità dei professionisti dell\'informazione documentaria che conserva la memoria'},
+{c:'LM-14',n:'Filologia Moderna',a:'uma',cur:'la tradizione letteraria dal Medioevo a oggi: analisi testuale, critica e storia letteraria',pro:'filologo in editoria, ricerca accademica, insegnamento o critica letteraria',met:'critica testuale, analisi stilistica, storia della tradizione e ecdotica',ctx:'università, case editrici, istituti di ricerca, scuole superiori',com:'la comunità dei filologi che custodisce e interpreta la tradizione letteraria'},
+{c:'LM-15',n:'Filologia, Letterature e Storia dell\'Antichità',a:'uma',cur:'le civiltà classiche: letteratura greca e latina, epigrafia, papirologia e storia antica',pro:'classicista in ricerca accademica, insegnamento, musei o editoria specializzata',met:'filologia classica, critica testuale, epigrafia e analisi storico-linguistica',ctx:'università, accademie, musei archeologici, editori scientifici',com:'la comunità dei classicisti che mantiene vivo il dialogo con l\'antichità'},
+{c:'LM-36',n:'Lingue e Letterature dell\'Africa e dell\'Asia',a:'uma',cur:'le culture, le letterature e le lingue del mondo afro-asiatico',pro:'orientalista, mediatore culturale o consulente per relazioni con Asia e Africa',met:'filologia orientale, analisi letteraria comparata, studi culturali e linguistici',ctx:'università, ambasciate, aziende con mercati asiatici/africani, ONG',com:'la comunità degli orientalisti e africanisti che interpreta mondi culturali diversi'},
+{c:'LM-37',n:'Lingue e Letterature Moderne Europee e Americane',a:'uma',cur:'le letterature e le culture in lingua inglese, francese, tedesca, spagnola e portoghese',pro:'comparatista, traduttore letterario, insegnante o critico culturale',met:'analisi letteraria comparata, studi culturali, linguistica contrastiva',ctx:'università, case editrici, scuole, istituti culturali stranieri',com:'la comunità dei comparatisti che naviga le letterature e le culture occidentali'},
+{c:'LM-38',n:'Lingue Moderne per la Comunicazione e la Cooperazione Internazionale',a:'uma',cur:'l\'uso avanzato delle lingue straniere per la mediazione, la cooperazione e la comunicazione',pro:'interprete, mediatore linguistico, funzionario internazionale o comunicatore multilingue',met:'interpretazione, traduzione settoriale, analisi del discorso e pragmatica interculturale',ctx:'organizzazioni internazionali, ambasciate, aziende multinazionali, ONG',com:'la comunità dei professionisti multilingue che facilita il dialogo tra culture'},
+{c:'LM-39',n:'Linguistica',a:'uma',cur:'la struttura del linguaggio: fonetica, sintassi, semantica, pragmatica e neurolinguistica',pro:'linguista in ricerca accademica, tecnologie del linguaggio, logopedia o editoria',met:'analisi formale, corpus linguistics, psicolinguistica e linguistica computazionale',ctx:'università, aziende NLP/AI, centri di ricerca neurolinguistica, editoria',com:'la comunità dei linguisti che decifra i meccanismi del linguaggio umano'},
+{c:'LM-78',n:'Scienze Filosofiche',a:'uma',cur:'i problemi fondamentali: etica, epistemologia, metafisica, filosofia politica e della mente',pro:'filosofo in ricerca accademica, consulenza filosofica, editoria o bioetica',met:'argomentazione razionale, analisi concettuale, ermeneutica e logica formale',ctx:'università, comitati etici, centri di bioetica, fondazioni culturali',com:'la comunità dei filosofi che interroga i fondamenti del pensiero e dell\'azione'},
+{c:'LM-84',n:'Scienze Storiche',a:'uma',cur:'i processi storici: politica, economia, società e cultura dal Medioevo al contemporaneo',pro:'storico in ricerca accademica, archivi, musei, giornalismo o consulenza culturale',met:'analisi delle fonti, storiografia critica, digital humanities e storia orale',ctx:'università, archivi, musei, fondazioni, centri di documentazione storica',com:'la comunità degli storici che ricostruisce e interpreta il passato per il presente'},
+{c:'LM-94',n:'Traduzione Specialistica e Interpretariato',a:'uma',cur:'la traduzione tecnica, giuridica, scientifica e l\'interpretazione di conferenza',pro:'traduttore specializzato o interprete di conferenza in organizzazioni, tribunali o aziende',met:'traduzione assistita (CAT tools), interpretazione consecutiva e simultanea, terminologia',ctx:'istituzioni internazionali, tribunali, aziende multinazionali, agenzie di traduzione',com:'la comunità dei traduttori e interpreti professionisti che connette lingue e saperi'},
+
+/* --- Comunicazione, Media e Industrie Creative (com) --- */
+{c:'LM-19',n:'Informazione e Sistemi Editoriali',a:'com',cur:'la produzione editoriale, il giornalismo e i sistemi di informazione contemporanei',pro:'giornalista, editor, responsabile editoriale o content strategist',met:'giornalismo investigativo, editing, produzione multimediale e diritto dell\'informazione',ctx:'redazioni giornalistiche, case editrici, piattaforme digitali, uffici stampa',com:'la comunità dei professionisti dell\'informazione che racconta e interpreta la realtà'},
+{c:'LM-59',n:'Scienze della Comunicazione Pubblica, d\'Impresa e Pubblicità',a:'com',cur:'le strategie di comunicazione organizzativa, istituzionale e pubblicitaria',pro:'communication manager, PR specialist, brand strategist o social media director',met:'strategic communication, brand management, analisi dei media e pianificazione campagne',ctx:'agenzie di comunicazione, direzioni marketing, uffici relazioni pubbliche, PA',com:'la comunità dei comunicatori che costruisce reputazione e relazioni per organizzazioni'},
+{c:'LM-92',n:'Teorie della Comunicazione',a:'com',cur:'le teorie e i modelli della comunicazione: semiotica, media studies e cultura digitale',pro:'ricercatore in comunicazione, media analyst, consulente culturale o critico dei media',met:'analisi del discorso, semiotica, media analysis e ricerca qualitativa sui media',ctx:'università, centri di ricerca, think tank, osservatori sui media',com:'la comunità dei teorici della comunicazione che analizza come i media modellano la società'},
+{c:'LM-93',n:'Teorie e Metodologie dell\'E-learning e della Media Education',a:'com',cur:'la progettazione di ambienti di apprendimento digitali e l\'educazione ai media',pro:'instructional designer, e-learning specialist o media educator',met:'learning design, tecnologie educative, valutazione dell\'apprendimento online',ctx:'piattaforme e-learning, scuole, università, aziende di formazione, PA',com:'la comunità degli specialisti dell\'apprendimento digitale e dell\'educazione ai media'},
+
+/* --- Educazione, Formazione e Scienze Pedagogiche (edu) --- */
+{c:'LM-50',n:'Programmazione e Gestione dei Servizi Educativi',a:'edu',cur:'la progettazione, il coordinamento e la valutazione dei servizi educativi e formativi',pro:'coordinatore pedagogico, dirigente di servizi educativi o progettista formativo',met:'progettazione educativa, valutazione dei servizi, management del terzo settore',ctx:'comuni, cooperative sociali, servizi per l\'infanzia, agenzie formative',com:'la comunità dei coordinatori pedagogici che progetta e gestisce servizi educativi'},
+{c:'LM-57',n:'Scienze dell\'Educazione degli Adulti e della Formazione Continua',a:'edu',cur:'i processi di apprendimento in età adulta, la formazione professionale e l\'orientamento',pro:'formatore aziendale, orientatore, consulente per lo sviluppo delle competenze',met:'andragogia, competency-based training, bilancio di competenze e career counseling',ctx:'aziende, agenzie per il lavoro, centri di formazione, PA',com:'la comunità dei formatori che accompagna gli adulti nei percorsi di crescita professionale'},
+{c:'LM-85',n:'Scienze Pedagogiche',a:'edu',cur:'i fondamenti teorici della pedagogia, la ricerca educativa e l\'innovazione didattica',pro:'pedagogista, ricercatore in scienze dell\'educazione o consulente pedagogico',met:'ricerca educativa, pedagogia sperimentale, analisi dei processi formativi',ctx:'università, centri di ricerca educativa, servizi socio-educativi, scuole',com:'la comunità dei pedagogisti che studia e innova i processi di formazione umana'},
+
+/* --- Psicologia, Scienze Sociali e Servizio Sociale (psi) --- */
+{c:'LM-51',n:'Psicologia',a:'psi',cur:'i processi cognitivi, affettivi e comportamentali: clinica, sviluppo, lavoro e neuroscienze',pro:'psicologo in ambito clinico, organizzativo, scolastico, giuridico o di ricerca',met:'assessment psicologico, intervento clinico, ricerca sperimentale e psicometria',ctx:'servizi sanitari, scuole, aziende, studi privati, centri di ricerca',com:'la comunità degli psicologi che studia e supporta il funzionamento della mente umana'},
+{c:'LM-88',n:'Sociologia e Ricerca Sociale',a:'psi',cur:'le strutture sociali, le disuguaglianze, i processi migratori e le trasformazioni culturali',pro:'sociologo in centri di ricerca, PA, aziende o ONG',met:'ricerca sociale quantitativa e qualitativa, analisi dei dati survey e etnografia urbana',ctx:'centri di ricerca, ISTAT, PA, fondazioni, ONG e organizzazioni internazionali',com:'la comunità dei sociologi che legge e interpreta le dinamiche della società'},
+
+/* --- Architettura, Design e Territorio (arc) --- */
+{c:'LM-3',n:'Architettura del Paesaggio',a:'arc',cur:'la progettazione e gestione del paesaggio: giardini, parchi, spazi aperti e recupero ambientale',pro:'paesaggista in studi professionali, enti parco o PA',met:'progettazione paesaggistica, ecologia del paesaggio, restauro ambientale',ctx:'studi di architettura del paesaggio, soprintendenze, enti parco, comuni',com:'la comunità dei paesaggisti che progetta il rapporto tra uomo e ambiente'},
+{c:'LM-12',n:'Design',a:'arc',cur:'il design del prodotto, degli interni, della comunicazione visiva o dei servizi',pro:'designer in studi professionali, aziende manifatturiere o agenzie creative',met:'design thinking, prototipazione, user research e progettazione centrata sull\'utente',ctx:'studi di design, aziende di arredo e moda, agenzie creative, startup',com:'la comunità dei designer che dà forma a oggetti, spazi e esperienze'},
+{c:'LM-48',n:'Pianificazione Territoriale, Urbanistica e Ambientale',a:'arc',cur:'la pianificazione delle città, dei quartieri e dei territori in chiave sostenibile',pro:'urbanista in PA, studi professionali o organizzazioni internazionali',met:'pianificazione urbanistica, GIS, valutazione ambientale strategica e partecipazione',ctx:'comuni, regioni, studi di urbanistica, centri di ricerca territoriale',com:'la comunità degli urbanisti che progetta città e territori per le generazioni future'},
+
+/* --- Scienze Motorie e Sport (mot) --- */
+{c:'LM-47',n:'Organizzazione e Gestione dei Servizi per lo Sport e le Attività Motorie',a:'mot',cur:'il management sportivo: organizzazione di eventi, gestione di impianti e marketing dello sport',pro:'sport manager in federazioni, società sportive, enti pubblici o aziende sportive',met:'management sportivo, event management, marketing dello sport e diritto sportivo',ctx:'federazioni sportive, CONI, società sportive professionistiche, enti locali',com:'la comunità dei manager sportivi che organizza e promuove lo sport come sistema'},
+{c:'LM-67',n:'Scienze e Tecniche delle Attività Motorie Preventive e Adattate',a:'mot',cur:'l\'attività motoria come strumento di prevenzione, riabilitazione e inclusione',pro:'specialista in attività motoria adattata in ospedali, centri riabilitativi o sport paralimpico',met:'fisiologia dell\'esercizio, valutazione funzionale, prescrizione dell\'esercizio e adattamento',ctx:'centri riabilitativi, ospedali, sport paralimpico, RSA e centri fitness clinici',com:'la comunità dei professionisti che usa il movimento come cura e prevenzione'},
+{c:'LM-68',n:'Scienze e Tecniche dello Sport',a:'mot',cur:'la scienza della performance atletica: allenamento, biomeccanica e preparazione sportiva',pro:'preparatore atletico, sport scientist o direttore tecnico in squadre o centri sportivi',met:'metodologia dell\'allenamento, biomeccanica, analisi della performance e sport analytics',ctx:'squadre professionistiche, centri di preparazione olimpica, federazioni, centri ricerca',com:'la comunità degli sport scientist che ottimizza la performance atletica con metodo scientifico'},
+
+/* --- AFAM II LIVELLO --- */
+{c:'AFAM-AV',n:'Diploma Accademico II Livello — Arti Visive',a:'arc',cur:'la ricerca artistica contemporanea: pittura, scultura, installazione e nuovi media',pro:'artista, curatore, docente di discipline artistiche o art director',met:'pratica artistica, critica d\'arte, curatela e progettazione espositiva',ctx:'gallerie, musei d\'arte contemporanea, fondazioni, accademie e residenze artistiche',com:'la comunità degli artisti contemporanei che esplora linguaggi e forme espressive'},
+{c:'AFAM-DES',n:'Diploma Accademico II Livello — Design',a:'arc',cur:'il design applicato: product, interior, fashion, communication o interaction design',pro:'designer specializzato in studi professionali, aziende di moda/arredo o startup',met:'concept development, prototipazione avanzata, design research e portfolio professionale',ctx:'studi di design, aziende di moda e arredo, agenzie, startup e industria creativa',com:'la comunità dei designer AFAM che unisce artigianalità e innovazione progettuale'},
+{c:'AFAM-COM',n:'Diploma Accademico II Livello — Comunicazione e Didattica dell\'Arte',a:'com',cur:'la comunicazione visiva, la didattica museale e la mediazione culturale attraverso l\'arte',pro:'mediatore culturale, comunicatore visivo, educatore museale o curatore didattico',met:'comunicazione visiva, didattica dell\'arte, progettazione di percorsi educativi museali',ctx:'musei, gallerie, fondazioni culturali, scuole, enti di formazione artistica',com:'la comunità dei mediatori che rende l\'arte accessibile e significativa per tutti'},
+{c:'AFAM-MUS',n:'Diploma Accademico II Livello — Musica',a:'uma',cur:'l\'interpretazione, la composizione, la direzione o la didattica musicale a livello avanzato',pro:'musicista professionista, direttore d\'orchestra, compositore o docente di conservatorio',met:'studio strumentale avanzato, analisi musicale, composizione e pratica performativa',ctx:'orchestre, teatri d\'opera, conservatori, festival musicali, studi di registrazione',com:'la comunità dei musicisti professionisti dove tecnica e espressione artistica si fondono'},
+{c:'AFAM-REST',n:'Diploma Accademico II Livello — Restauro',a:'uma',cur:'la conservazione e il restauro di beni culturali: dipinti, sculture, architetture e materiali',pro:'restauratore qualificato in soprintendenze, musei, cantieri di restauro o studi privati',met:'chimica del restauro, diagnostica per immagini, tecniche conservative e documentazione',ctx:'soprintendenze, musei, cantieri di restauro, istituti di conservazione',com:'la comunità dei restauratori che preserva il patrimonio culturale per le generazioni future'}
+];
+
+/* ===== ATENEI DATABASE ===== */
+const ATENEI=[
+{nome:'Politecnico di Milano',tipo:'Statale',prov:'Milano',aree:['ing','inf','arc'],sito:'https://www.polimi.it'},
+{nome:'Università degli Studi di Milano',tipo:'Statale',prov:'Milano',aree:['vita','med','uma','eco','psi','com','edu','giu','terra'],sito:'https://www.unimi.it'},
+{nome:'Università di Milano-Bicocca',tipo:'Statale',prov:'Milano',aree:['vita','med','eco','psi','com','inf','edu','terra'],sito:'https://www.unimib.it'},
+{nome:'Università Cattolica del Sacro Cuore',tipo:'Privata',prov:'Milano',aree:['eco','uma','psi','med','com','edu','giu'],sito:'https://www.unicatt.it'},
+{nome:'Università Bocconi',tipo:'Privata',prov:'Milano',aree:['eco','giu','inf'],sito:'https://www.unibocconi.it'},
+{nome:'IULM',tipo:'Privata',prov:'Milano',aree:['com','uma','arc'],sito:'https://www.iulm.it'},
+{nome:'Humanitas University',tipo:'Privata',prov:'Milano',aree:['med'],sito:'https://www.hunimed.eu'},
+{nome:'Vita-Salute San Raffaele',tipo:'Privata',prov:'Milano',aree:['med','psi','uma'],sito:'https://www.unisr.it'},
+{nome:'Università di Pavia',tipo:'Statale',prov:'Pavia',aree:['ing','vita','med','eco','uma','giu','psi','inf'],sito:'https://www.unipv.it'},
+{nome:'Università di Bergamo',tipo:'Statale',prov:'Bergamo',aree:['eco','uma','ing','com','edu','giu'],sito:'https://www.unibg.it'},
+{nome:'Università di Brescia',tipo:'Statale',prov:'Brescia',aree:['ing','med','eco','giu'],sito:'https://www.unibs.it'},
+{nome:'Università dell\'Insubria',tipo:'Statale',prov:'Varese-Como',aree:['vita','med','eco','uma','giu','terra'],sito:'https://www.uninsubria.it'},
+{nome:'NABA Milano',tipo:'Privata AFAM',prov:'Milano',aree:['arc','com'],sito:'https://www.naba.it'},
+{nome:'IED Milano',tipo:'Privata',prov:'Milano',aree:['arc','com'],sito:'https://www.ied.it'},
+{nome:'Conservatorio di Milano',tipo:'Statale AFAM',prov:'Milano',aree:['uma'],sito:'https://www.consmilano.it'},
+{nome:'Accademia di Brera',tipo:'Statale AFAM',prov:'Milano',aree:['arc','uma'],sito:'https://www.accademiadibrera.milano.it'},
+{nome:'eCampus',tipo:'Telematica',prov:'Online',aree:['ing','eco','uma','psi','com','edu','giu'],sito:'https://www.uniecampus.it'},
+{nome:'Pegaso',tipo:'Telematica',prov:'Online',aree:['eco','uma','psi','mot','edu','giu'],sito:'https://www.unipegaso.it'}
+];
+
+/* ===== APP STATE ===== */
+let userData={nome:'',cognome:'',eta:'',data:'',classeTri:'',voto:'',annoComp:''};
+let answers={},gateResult=null,snodoInteressi={},selectedAreas=[],adaptiveAnswers={};
+let curPhase='welcome',curSection=-1,startTime=null,charts=[],sndOn=true,triennaleData=null;
+
+const $=id=>document.getElementById(id),app=$('app');
+
+/* ===== AUDIO ===== */
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function bip(f,d,t,g){if(!sndOn)return;try{AC.resume().then(()=>{const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);o.type=t||'sine';o.frequency.value=f;gn.gain.value=g||.08;o.start();gn.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)})}catch(e){}}
+function sClick(){bip(880,.06,'sine',.06);bip(1320,.04,'sine',.04)}
+function sNav(){bip(523,.08);bip(659,.08);setTimeout(()=>bip(784,.12),60)}
+function sDone(){bip(523,.15);setTimeout(()=>bip(659,.15),100);setTimeout(()=>bip(784,.15),200);setTimeout(()=>bip(1047,.25),300)}
+function sCeleb(){[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>bip(f,.2,'sine',.1),i*120))}
+function tglSnd(){sndOn=!sndOn;$('sndT').textContent=sndOn?'\ud83d\udd0a':'\ud83d\udd07'}
+
+/* Toast */
+function toast(msg,dur){const t=$('toast-el');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur||2500)}
+
+/* ===== SCORING HELPERS ===== */
+function calcSectionScores(section,ans){
+  const res={};
+  for(const[aName,aData]of Object.entries(section.areas)){
+    let sum=0,cnt=0;
+    aData.i.forEach(n=>{if(ans[n]!==undefined){let v=ans[n];sum+=v;cnt++}});
+    const pct=aData.m>0?Math.round(sum/aData.m*100):0;
+    res[aName]={sum,max:aData.m,pct,neg:!!aData.neg,desc:aData.d,cnt};
+  }
+  return res;
+}
+
+function calcAllModAScores(){
+  const all={};
+  MOD_A.forEach(s=>{all[s.id]=calcSectionScores(s,answers[s.id]||{})});
+  return all;
+}
+
+function calcModBScores(){
+  return MOD_B.map(s=>({id:s.id,scores:calcSectionScores(s,answers[s.id]||{})}));
+}
+
+/* ===== CENTRAMENTO SCORE ===== */
+function calcCentramento(){
+  const a=answers.centramento||{};
+  const sec=MOD_A[0];
+  const sc=calcSectionScores(sec,a);
+  // Centramento positivo = Consapevolezza + Identità + Soddisfazione + Delta Attese
+  // Centramento negativo = Biforcazioni + Evoluzione (già neg)
+  let pos=0,neg=0,cnt=0;
+  ['Consapevolezza','Identità','Soddisfazione','Delta Attese'].forEach(k=>{
+    if(sc[k]){pos+=sc[k].pct;cnt++}
+  });
+  ['Biforcazioni','Evoluzione'].forEach(k=>{
+    if(sc[k]){neg+=sc[k].pct;cnt++}
+  });
+  if(cnt===0) return 50;
+  const posAvg=pos/4, negAvg=neg/2;
+  // Alto centramento = posAvg alto + negAvg basso
+  // Score 0-100 dove 100 = perfettamente centrato
+  return Math.round(Math.max(0,Math.min(100, posAvg - negAvg*0.5 + 25)));
+}
+
+/* ===== GATE LOGIC ===== */
+function computeGate(){
+  const centScore=calcCentramento();
+  const sc=calcAllModAScores();
+  const mapping=getTriMapping(userData.classeTri);
+  const carrSc=calcSectionScores(SNODO_CARRIERA, answers[SNODO_CARRIERA.id]||{});
+
+  // === 1. CALCOLO PRONTEZZA LM (0-100) ===
+  let prontezza=0;
+
+  // a) Centramento sulla triennale (peso 20%)
+  // Centramento basso = segnale di riorientamento necessario prima della LM
+  prontezza += Math.min(centScore, 100) * 0.20;
+
+  // b) Concentrazione degli interessi (peso 25%)
+  // Interessi concentrati = direzione chiara, interessi piatti = serve esperienza
+  const intScores=[];
+  AREAS.forEach(area=>{
+    const items=SNODO_INTERESSI.items.filter(it=>it.a===area.id);
+    let sum=0,cnt=0;
+    items.forEach(it=>{if(snodoInteressi[it.n]!==undefined){sum+=snodoInteressi[it.n];cnt++}});
+    intScores.push(cnt>0?sum/(cnt*4)*100:50);
+  });
+  intScores.sort((a,b)=>b-a);
+  // Concentrazione = delta tra top-3 e bottom-3
+  const top3avg=(intScores[0]+intScores[1]+intScores[2])/3;
+  const bot3avg=(intScores[10]+intScores[11]+intScores[12])/3;
+  const concentrazione=Math.min(100, Math.max(0, (top3avg-bot3avg)*2));
+  prontezza += concentrazione * 0.25;
+
+  // c) Orientamento ricerca dal Modulo A (peso 15%)
+  const appSc=sc.apprendimento;
+  const ricercaPct=appSc?.['Ricerca']?.pct||50;
+  // Forte ricerca = LM quasi necessaria (dottorato richiede LM)
+  prontezza += ricercaPct * 0.15;
+
+  // d) Coping e locus (peso 15%)
+  // Evitante alto + locus esterno = rischio dispersione
+  const copingAttivo=sc.coping?.['Attivo']?.pct||50;
+  const copingEvitante=sc.coping?.['Evitante']?.pct||50;
+  const locusInterno=sc.locus?.['Interno']?.pct||50;
+  const profiloPsy=Math.max(0, (copingAttivo - copingEvitante*0.5 + locusInterno) / 2);
+  prontezza += Math.min(profiloPsy, 100) * 0.15;
+
+  // e) Orientamento carriera (peso 25%)
+  const ricercaCarr=carrSc['Ricerca']?.pct||0;
+  const profCarr=carrSc['Professione']?.pct||0;
+  const imprCarr=carrSc['Imprenditorialità']?.pct||0;
+  const urgenza=carrSc['Urgenza']?.pct||0;
+  const sostenibilita=carrSc['Sostenibilità']?.pct||0;
+  // Ricerca alta → LM necessaria, Imprenditorialità alta → LM opzionale, Urgenza alta → LM rischiosa
+  const carrProntezza = ricercaCarr*0.5 + profCarr*0.3 - imprCarr*0.1 - urgenza*0.3 + sostenibilita*0.3;
+  prontezza += Math.max(0, Math.min(100, carrProntezza + 30)) * 0.25;
+
+  prontezza=Math.round(Math.max(0, Math.min(100, prontezza)));
+
+  // === 2. CALCOLO PERCORSO A/B/C (automatico) ===
+  // Basato su: dove cadono gli interessi più alti rispetto alla triennale?
+  let directScore=0, adjacentScore=0, otherScore=0, directCnt=0, adjCnt=0, otherCnt=0;
+  AREAS.forEach(area=>{
+    const items=SNODO_INTERESSI.items.filter(it=>it.a===area.id);
+    let sum=0,cnt=0;
+    items.forEach(it=>{if(snodoInteressi[it.n]!==undefined){sum+=snodoInteressi[it.n];cnt++}});
+    const areaPct=cnt>0?sum/(cnt*4)*100:0;
+    if(mapping.direct.includes(area.id)){directScore+=areaPct;directCnt++}
+    else if(mapping.adjacent.includes(area.id)){adjacentScore+=areaPct;adjCnt++}
+    else{otherScore+=areaPct;otherCnt++}
+  });
+  const directAvg=directCnt>0?directScore/directCnt:0;
+  const adjAvg=adjCnt>0?adjacentScore/adjCnt:0;
+  const otherAvg=otherCnt>0?otherScore/otherCnt:0;
+
+  let path='C';
+  if(directAvg>=adjAvg && directAvg>=otherAvg && directAvg>30) path='A';
+  else if(adjAvg>=otherAvg && adjAvg>30) path='B';
+
+  // Caso ALTRO/ESTERO: nessun mapping → sempre C
+  if(mapping.direct.length===0) path='C';
+
+  // === 3. NARRAZIONE DIAGNOSTICA ===
+  let narrazione='';
+  let segnali=[];
+
+  // Prontezza LM
+  if(prontezza>=65){
+    narrazione+='<strong>Indicatore di prontezza per la LM: '+prontezza+'%.</strong> Il tuo profilo mostra segnali coerenti con l\'iscrizione a una laurea magistrale: ';
+    if(ricercaCarr>60) narrazione+='forte orientamento alla ricerca, ';
+    if(concentrazione>60) narrazione+='interessi disciplinari concentrati, ';
+    if(centScore>60) narrazione+='buon centramento sulla triennale. ';
+    else narrazione+='anche se il centramento sulla triennale non è elevato. ';
+  } else if(prontezza>=40){
+    narrazione+='<strong>Indicatore di prontezza per la LM: '+prontezza+'%.</strong> Il tuo profilo presenta segnali misti. La magistrale è un\'opzione percorribile, ma non è l\'unica. ';
+  } else {
+    narrazione+='<strong>Indicatore di prontezza per la LM: '+prontezza+'%.</strong> Il tuo profilo suggerisce che un ingresso nel mondo del lavoro o una formazione professionalizzante breve potrebbe meritare considerazione prima di (o al posto di) un biennio magistrale. ';
+  }
+
+  // Segnali specifici
+  if(urgenza>60 && sostenibilita<40){
+    segnali.push('Segnali di urgenza economica ('+urgenza+'%) con bassa sostenibilità per ulteriori studi ('+sostenibilita+'%): valuta se un percorso lavorativo immediato con formazione parallela sia più realistico.');
+  }
+  if(copingEvitante>60){
+    segnali.push('Stile di coping prevalentemente evitante ('+copingEvitante+'%): la magistrale richiede alta autonomia e gestione di carichi concentrati. Sviluppare strategie di fronteggiamento attivo è prioritario, a prescindere dalla scelta.');
+  }
+  if(imprCarr>60 && ricercaCarr<30){
+    segnali.push('Forte orientamento imprenditoriale ('+imprCarr+'%) con scarso interesse per la ricerca: la magistrale non è l\'unica via. Valuta master professionalizzanti, incubatori o ingresso diretto nel mercato.');
+  }
+  if(centScore<35 && concentrazione<30){
+    segnali.push('Centramento basso sulla triennale ('+centScore+'%) e interessi disciplinari distribuiti: potrebbe essere utile un\'esperienza lavorativa o un percorso di orientamento prima di scegliere un biennio specialistico.');
+  }
+  if(concentrazione>70){
+    segnali.push('Interessi molto concentrati (top-3 media: '+Math.round(top3avg)+'%): la direzione è chiara.');
+  }
+
+  // Percorso
+  const pathNames={A:'Continuità',B:'Complementarità',C:'Esplorazione aperta'};
+  narrazione+='<br><br><strong>Percorso suggerito: '+path+' — '+pathNames[path]+'.</strong> ';
+  if(path==='A') narrazione+='I tuoi interessi più forti ricadono nelle aree direttamente collegate alla tua triennale (media: '+Math.round(directAvg)+'%). Il biennio in continuità è la scelta più coerente con il tuo profilo.';
+  else if(path==='B') narrazione+='I tuoi interessi più forti ricadono nelle aree adiacenti alla tua triennale (media: '+Math.round(adjAvg)+'%). Un percorso complementare potrebbe offrirti il miglior rapporto tra ampliamento e coerenza.';
+  else narrazione+='I tuoi interessi non si concentrano nelle aree direttamente collegate alla triennale. L\'esplorazione è aperta: la classifica delle aree nella fase successiva è il tuo strumento principale.';
+
+  if(segnali.length>0){
+    narrazione+='<br><br><strong>Segnali da considerare:</strong><br>';
+    segnali.forEach(s=>{narrazione+='⚠️ '+s+'<br>'});
+  }
+
+  narrazione+='<br><em>Questa è una restituzione diagnostica, non una prescrizione. La scelta finale è tua: puoi procedere con l\'esplorazione delle magistrali, modificare il percorso suggerito, o decidere di esplorare alternative alla LM.</em>';
+
+  gateResult={path,centScore,prontezza,concentrazione,narrazione,segnali,
+    carriera:{ricerca:ricercaCarr,professione:profCarr,imprenditorialita:imprCarr,urgenza,sostenibilita},
+    interessi:{directAvg:Math.round(directAvg),adjAvg:Math.round(adjAvg),otherAvg:Math.round(otherAvg)}};
+  return gateResult;
+}
+
+/* ===== AREA AFFINITY CALCULATION ===== */
+function calcAreaAffinity(){
+  const sc=calcAllModAScores();
+  const mapping=getTriMapping(userData.classeTri);
+  const affinities=[];
+
+  AREAS.forEach((area)=>{
+    let score=0;
+
+    // PESO PRIMARIO (60%): Interessi disciplinari dichiarati nello Snodo
+    // 2 domande per area, max 8 punti → percentuale
+    const si=snodoInteressi;
+    const items=SNODO_INTERESSI.items.filter(it=>it.a===area.id);
+    let intSum=0,intCnt=0;
+    items.forEach(it=>{if(si[it.n]!==undefined){intSum+=si[it.n];intCnt++}});
+    const intPct=intCnt>0?intSum/(intCnt*4)*100:50;
+    score+=intPct*0.60;
+
+    // PESO STRUTTURALE (20%): Accessibilità normativa dalla classe triennale
+    if(gateResult){
+      if(gateResult.path==='A'){
+        if(mapping.direct.includes(area.id)) score+=20;
+        else if(mapping.adjacent.includes(area.id)) score+=8;
+      } else if(gateResult.path==='B'){
+        if(mapping.direct.includes(area.id)) score+=12;
+        if(mapping.adjacent.includes(area.id)) score+=18;
+      } else { // Percorso C: bonus minimo per accessibilità diretta
+        if(mapping.direct.includes(area.id)) score+=5;
+        if(mapping.adjacent.includes(area.id)) score+=3;
+      }
+    }
+
+    // PESO SECONDARIO (20%): Profilo Modulo A
+    const app=sc.apprendimento;
+    if(app){
+      const researchAreas=['inf','vita','terra','uma','psi'];
+      const appliedAreas=['ing','eco','med','mot','arc'];
+      if(researchAreas.includes(area.id)) score+=(app['Ricerca']?.pct||50)/100*8;
+      if(appliedAreas.includes(area.id)) score+=(app['Applicazione']?.pct||50)/100*8;
+    }
+    const ss=sc.softskills;
+    if(ss){
+      if(area.id==='eco'||area.id==='ing') score+=(ss['Gestione Progettuale']?.pct||ss['Project Mgmt']?.pct||50)/100*4;
+      if(area.id==='edu'||area.id==='psi') score+=(ss['Comunicazione Interculturale']?.pct||50)/100*4;
+      if(area.id==='uma'||area.id==='com') score+=(ss['Scrittura Accademica']?.pct||50)/100*4;
+      if(area.id==='inf') score+=(ss['Pensiero Sistemico']?.pct||50)/100*4;
+    }
+
+    affinities.push({id:area.id,name:area.name,icon:area.icon,desc:area.desc,pct:Math.round(Math.max(5,Math.min(100,score)))});
+  });
+
+  affinities.sort((a,b)=>b.pct-a.pct);
+  return affinities;
+}
+
+/* ===== ADAPTIVE SCORING ===== */
+function calcAdaptiveScores(){
+  const results={};
+  selectedAreas.forEach(areaId=>{
+    const areaLMs=LM_DB.filter(lm=>lm.a===areaId);
+    const areaAns=adaptiveAnswers[areaId]||{};
+    const lmScores=[];
+    areaLMs.forEach(lm=>{
+      const lmAns=areaAns[lm.c]||{};
+      let sum=0,cnt=0;
+      for(let q=1;q<=5;q++){if(lmAns[q]!==undefined){sum+=lmAns[q];cnt++}}
+      lmScores.push({code:lm.c,name:lm.n,pct:cnt>0?Math.round(sum/20*100):0,answered:cnt});
+    });
+    lmScores.sort((a,b)=>b.pct-a.pct);
+    results[areaId]=lmScores;
+  });
+  return results;
+}
+
+/* ===== TOTAL QUESTION COUNT ===== */
+function getTotalQuestions(){
+  let total=0;
+  MOD_A.forEach(s=>total+=s.items.length);
+  total+=SNODO_INTERESSI.items.length; // 26 interessi disciplinari
+  total+=SNODO_CARRIERA.items.length; // 12 carriera/settore
+  // adattivo
+  selectedAreas.forEach(areaId=>{
+    total+=LM_DB.filter(lm=>lm.a===areaId).length*5;
+  });
+  MOD_B.forEach(s=>total+=s.items.length);
+  return total;
+}
+
+function getAnsweredCount(){
+  let done=0;
+  MOD_A.forEach(s=>{const a=answers[s.id]||{};done+=Object.keys(a).length});
+  done+=Object.keys(snodoInteressi).length; // interessi disciplinari
+  done+=Object.keys(answers[SNODO_CARRIERA.id]||{}).length; // carriera
+  selectedAreas.forEach(areaId=>{
+    const aa=adaptiveAnswers[areaId]||{};
+    Object.values(aa).forEach(lmA=>{done+=Object.keys(lmA).length});
+  });
+  MOD_B.forEach(s=>{const a=answers[s.id]||{};done+=Object.keys(a).length});
+  return done;
+}
+
+/* ===== SAVE / LOAD ===== */
+function saveState(){
+  try{
+    const d={version:2,type:'magistrale',timestamp:new Date().toISOString(),userData,answers,snodoInteressi,gateResult,selectedAreas,adaptiveAnswers,curPhase};
+    const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(b);
+    a.download='orientamento_LM_'+(userData.nome||'utente')+'_'+new Date().toISOString().slice(0,10)+'.json';
+    a.click();toast('Salvato! ✓');
+  }catch(e){alert('Errore: '+e.message)}
+}
+function loadState(){$('impI').click()}
+function hImp(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      if(d.type!=='magistrale'){alert('Questo file non è di un questionario magistrale.');return}
+      userData=d.userData||userData;answers=d.answers||{};
+      snodoInteressi=d.snodoInteressi||{};
+      gateResult=d.gateResult||null;selectedAreas=d.selectedAreas||[];
+      adaptiveAnswers=d.adaptiveAnswers||{};curPhase=d.curPhase||'welcome';
+      toast('Dati caricati! ✓');showHub();
+    }catch(er){alert('File non valido')}
+  };r.readAsText(f);
+}
+
+/* ===== IMPORT TRIENNALE ===== */
+function loadTriennale(){$('impTri').click()}
+function hImpTri(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();r.onload=ev=>{
+    try{
+      const d=JSON.parse(ev.target.result);
+      triennaleData=d;toast('Profilo triennale importato! ✓');
+    }catch(er){alert('File triennale non valido')}
+  };r.readAsText(f);
+}
+
+/* ===== UI: WELCOME ===== */
+function showWelcome(){
+  curPhase='welcome';
+  $('sticky-header').style.display='none';$('progress-container').style.display='none';
+  const today=new Date().toISOString().split('T')[0];
+  const groups=[
+    {label:'Ingegneria',codes:['L-7','L-8','L-9','L-23','L-28']},
+    {label:'Informatica, Matematica, Fisica, Statistica',codes:['L-30','L-31','L-35','L-41']},
+    {label:'Scienze della Vita e Biotecnologie',codes:['L-2','L-13','L-26','L-27']},
+    {label:'Scienze della Terra e Ambiente',codes:['L-25','L-32','L-34']},
+    {label:'Area Medico-Sanitaria',codes:['L/SNT1','L/SNT2','L/SNT3','L/SNT4']},
+    {label:'Cicli unici area sanitaria',codes:['LM-41','LM-46','LM-13cu','LM-42cu']},
+    {label:'Economia e Management',codes:['L-15','L-16','L-18','L-33']},
+    {label:'Area Giuridico-Politica',codes:['L-14','L-36','L-37','LMG/01']},
+    {label:'Umanistica e Lingue',codes:['L-1','L-3','L-5','L-6','L-10','L-11','L-12','L-42','L-43']},
+    {label:'Comunicazione',codes:['L-20']},
+    {label:'Educazione e Formazione',codes:['L-19','LM-85bis']},
+    {label:'Psicologia e Scienze Sociali',codes:['L-24','L-39','L-40']},
+    {label:'Architettura e Design',codes:['L-4','L-17','L-21']},
+    {label:'Scienze Motorie',codes:['L-22']},
+    {label:'AFAM — Diplomi Accademici I Livello',codes:['AFAM-AV','AFAM-DES','AFAM-MUS','AFAM-COM','AFAM-REST']},
+    {label:'Altro',codes:['ESTERO','ALTRO']}
+  ];
+  let classOpts='<option value="">— Seleziona la tua classe di laurea —</option>';
+  groups.forEach(g=>{
+    classOpts+=`<optgroup label="${g.label}">`;
+    g.codes.forEach(code=>{const cl=getClasseTri(code);if(cl) classOpts+=`<option value="${code}" ${userData.classeTri===code?'selected':''}>${code} — ${cl.n}</option>`});
+    classOpts+=`</optgroup>`;
+  });
+  app.innerHTML=`<div class="ws"><span class="ci">🎓</span>
+<h1>Orientamento <span>Laurea Magistrale</span></h1>
+<p>Un percorso adattivo per scegliere il biennio specialistico più coerente con il tuo profilo. Il questionario si adatta alle tue risposte: le domande e le aree esplorate cambiano in base a chi sei.</p>
+<div class="uf">
+<div class="row2"><div><label>Nome</label><input id="uNome" value="${userData.nome}"></div><div><label>Cognome</label><input id="uCogn" value="${userData.cognome}"></div></div>
+<div class="row2"><div><label>Età</label><input id="uEta" type="number" min="18" max="60" placeholder="Es. 23" value="${userData.eta}"></div><div><label>Data</label><input id="uData" type="date" value="${userData.data||today}"></div></div>
+<label>Classe di laurea triennale (o equivalente)</label>
+<select id="uClasseTri" style="font-size:.9em">${classOpts}</select>
+<div class="row2"><div><label>Voto di laurea (opzionale)</label><input id="uVoto" type="text" placeholder="Es. 105/110 o in corso" value="${userData.voto}"></div><div><label>Anno completamento (previsto)</label><input id="uAnno" type="number" min="2015" max="2030" placeholder="Es. 2026" value="${userData.annoComp}"></div></div>
+</div>
+<button class="btn btn-p" onclick="goStart()">Inizia il percorso →</button>
+<div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button class="btn btn-s btn-sm" onclick="loadState()">📂 Carica salvataggio</button>
+<button class="btn btn-s btn-sm" onclick="loadTriennale()">📋 Importa profilo triennale</button>
+</div>
+${triennaleData?'<div style="margin-top:10px;font-size:.82em;color:var(--green);font-weight:700">✓ Profilo triennale caricato</div>':''}
+</div>`;
+}
+
+function goStart(){
+  userData.nome=($('uNome')?.value||'').trim();
+  userData.cognome=($('uCogn')?.value||'').trim();
+  userData.eta=$('uEta')?.value||'';
+  userData.data=$('uData')?.value||'';
+  userData.classeTri=$('uClasseTri')?.value||'';
+  userData.voto=$('uVoto')?.value||'';
+  userData.annoComp=$('uAnno')?.value||'';
+  if(!userData.classeTri){toast('Seleziona la classe di laurea triennale');return}
+  sClick();if(!startTime)startTime=Date.now();
+  showHub();
+}
+
+/* ===== UI: HUB ===== */
+function showHub(){
+  curPhase='hub';curSection=-1;
+  $('sticky-header').style.display='none';$('progress-container').style.display='none';
+  const fullName=(userData.nome+(userData.cognome?' '+userData.cognome:'')).trim()||'utente';
+  const cl=getClasseTri(userData.classeTri);
+
+  // Stato completamento
+  const modADone=MOD_A.every(s=>{const a=answers[s.id]||{};return s.items.every(it=>a[it.n]!==undefined)});
+  const snodoDone=!!gateResult;
+  const interDone=Object.keys(snodoInteressi).length>=26;
+  const carrDone=(()=>{const a=answers[SNODO_CARRIERA.id]||{};return Object.keys(a).length>=SNODO_CARRIERA.items.length})();
+  const gateDone=snodoDone && interDone && carrDone;
+  const areasDone=selectedAreas.length>0;
+  const adaptDone=areasDone && selectedAreas.every(aId=>{
+    const lms=LM_DB.filter(lm=>lm.a===aId);
+    return lms.every(lm=>{const a=(adaptiveAnswers[aId]||{})[lm.c]||{};return Object.keys(a).length===5});
+  });
+  const modBDone=MOD_B.every(s=>{const a=answers[s.id]||{};return s.items.every(it=>a[it.n]!==undefined)});
+  const allDone=modADone && gateDone && areasDone && adaptDone && modBDone;
+
+  const total=getTotalQuestions(), done=getAnsweredCount();
+  const pct=total?Math.round(done/total*100):0;
+
+  let h=`<div class="ws" style="padding:16px 0"><h1 style="font-size:1.5em">🎓 <span>${fullName}</span></h1>
+<p style="margin-bottom:12px">${userData.classeTri||'—'} ${cl?'— '+cl.n:''}</p>
+<div style="max-width:400px;margin:0 auto 16px"><div style="display:flex;justify-content:space-between;font-size:.78em;margin-bottom:4px"><span style="font-weight:700">Completamento</span><span style="font-family:'JetBrains Mono';color:var(--accent);font-weight:700">${pct}%</span></div><div style="height:10px;background:var(--bg-input);border-radius:5px;overflow:hidden"><div style="height:100%;width:${pct}%;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--cyan),var(--green));transition:width .8s"></div></div></div>`;
+
+  // PHASE 1: Module A
+  h+=`<div class="blk-label">Fase 1 · Il Tuo Profilo</div><div class="phase-grid">`;
+  MOD_A.forEach((s,i)=>{
+    const a=answers[s.id]||{};
+    const n=s.items.filter(it=>a[it.n]!==undefined).length;
+    const isDone=n===s.items.length;
+    h+=`<div class="phase-card ${isDone?'done':''}" onclick="openModA(${i})"><span class="pi">${s.icon}</span><div class="pn">${s.title}</div><div class="pd">${s.items.length} domande · ${n}/${s.items.length}</div><div class="pb ${isDone?'ok':'no'}">${isDone?'✓':(i+1)}</div></div>`;
+  });
+  h+=`</div>`;
+
+  // FASE 2: Snodo
+  h+=`<div class="blk-label">Fase 2 · Snodo</div><div class="phase-grid">`;
+  h+=`<div class="phase-card ${gateDone?'done':(!modADone?'locked':'active')}" onclick="${modADone?'showSnodo()':'toast(\'Completa prima tutte le sezioni della Fase 1\')'}"><span class="pi">🚦</span><div class="pn">Snodo — Diagnostica</div><div class="pd">${gateDone?'Prontezza LM: '+gateResult.prontezza+'% · Percorso '+gateResult.path:(interDone&&carrDone?'Dati raccolti — genera la diagnostica':(interDone?'Interessi ✓ — compila Carriera':'Interessi disciplinari + Orientamento professionale + Diagnostica'))}</div><div class="pb ${gateDone?'ok':'no'}">${gateDone?'✓':'—'}</div></div>`;
+  h+=`</div>`;
+
+  // FASE 3: Selezione aree + Adattivo
+  h+=`<div class="blk-label">Fase 3 · Esplorazione Magistrali</div><div class="phase-grid">`;
+  h+=`<div class="phase-card ${areasDone?'done':(!gateDone?'locked':'active')}" onclick="${gateDone?'showAreaSelection()':'toast(\'Completa prima lo Snodo\')'}"><span class="pi">🗺️</span><div class="pn">Selezione Aree</div><div class="pd">${areasDone?selectedAreas.map(id=>AREAS.find(a=>a.id===id)?.icon||'').join(' ')+' '+selectedAreas.length+' aree scelte':'Scegli le macro-aree da esplorare'}</div><div class="pb ${areasDone?'ok':'no'}">${areasDone?'✓':'—'}</div></div>`;
+  if(areasDone){
+    selectedAreas.forEach(aId=>{
+      const area=AREAS.find(a=>a.id===aId);
+      const lms=LM_DB.filter(lm=>lm.a===aId);
+      const aa=adaptiveAnswers[aId]||{};
+      let lmDone=0;lms.forEach(lm=>{const la=aa[lm.c]||{};if(Object.keys(la).length===5)lmDone++});
+      const isDone=lmDone===lms.length;
+      h+=`<div class="phase-card ${isDone?'done':''}" onclick="openAdaptive('${aId}')"><span class="pi">${area?.icon||'📘'}</span><div class="pn">${area?.name||aId}</div><div class="pd">${lms.length} LM · ${lmDone}/${lms.length} completate</div><div class="pb ${isDone?'ok':'no'}">${isDone?'✓':'…'}</div></div>`;
+    });
+  }
+  h+=`</div>`;
+
+  // PHASE 4: Module B
+  h+=`<div class="blk-label">Fase 4 · Progetto di Vita</div><div class="phase-grid">`;
+  MOD_B.forEach((s,i)=>{
+    const a=answers[s.id]||{};
+    const n=s.items.filter(it=>a[it.n]!==undefined).length;
+    const isDone=n===s.items.length;
+    const locked=!adaptDone && !areasDone;
+    h+=`<div class="phase-card ${isDone?'done':(locked?'locked':'')}" onclick="${locked?'toast(\'Completa prima l\\\'esplorazione delle magistrali\')':'openModB('+i+')'}"><span class="pi">${s.icon}</span><div class="pn">${s.title}</div><div class="pd">${s.items.length} domande · ${n}/${s.items.length}</div><div class="pb ${isDone?'ok':'no'}">${isDone?'✓':(i+1)}</div></div>`;
+  });
+  h+=`</div>`;
+
+  // Actions
+  h+=`<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px">`;
+  h+=`<button class="btn ${allDone?'btn-g':'btn-p'}" onclick="showReport()">📊 ${allDone?'Vedi Report':'Report parziale'}</button>`;
+  h+=`<button class="btn btn-s btn-sm" onclick="saveState()">💾 Salva</button>`;
+  h+=`<button class="btn btn-s btn-sm" onclick="loadState()">📂 Carica</button>`;
+  h+=`<button class="btn btn-s btn-sm" onclick="showWelcome()">↩ Modifica dati</button>`;
+  if(allDone) h+=`<button class="btn btn-s btn-sm" onclick="showOpReport()">👨‍🏫 Operatore</button>`;
+  h+=`</div></div>`;
+  app.innerHTML=h;
+}
+
+/* ===== UI: QUESTIONNAIRE RENDER (generic for ModA/ModB) ===== */
+function renderSection(section, backFn, nextFn, nextLabel){
+  const a=answers[section.id]||{};
+  if(!answers[section.id]) answers[section.id]={};
+  const done=section.items.filter(it=>a[it.n]!==undefined).length;
+
+  $('sticky-header').style.display='';$('progress-container').style.display='';
+  $('hT').textContent=section.icon+' '+section.title;
+  $('hS').textContent=section.subtitle;
+  $('hI').textContent=section.instruction;
+  const sn=$('stickyNav');sn.style.display='flex';
+  sn.innerHTML=`<span style="font-size:.78em;color:var(--text-sec);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%">${section.icon} ${section.title}</span><span class="nc" id="snc">${done}/${section.items.length}</span>`;
+
+  let h=`<div class="qsec" style="padding-top:90px">`;
+  h+=`<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow-sm)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span style="font-size:2em">${section.icon}</span><div><div style="font-family:'Playfair Display',serif;font-size:1.2em;color:var(--accent);font-weight:700">${section.title}</div><div style="font-size:.85em;color:var(--text-sec);margin-top:2px">${section.subtitle}</div></div></div><div style="font-size:.88em;color:var(--text-sec);background:var(--accent-bg);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;line-height:1.6">${section.instruction}</div></div>`;
+
+  section.items.forEach((it,idx)=>{
+    const ans=a[it.n];const isAns=ans!==undefined;
+    h+=`<div class="qc ${isAns?'ans':''}" id="qc${it.n}"><div class="qnum">${it.r?'↻ ':''}DOMANDA ${it.n} di ${section.items.length}</div><div class="qt">${it.t}</div><div class="ls">`;
+    section.scale.forEach(s=>{h+=`<div class="lo ${ans===s.v?'sel':''}" onclick="pickQ('${section.id}',${it.n},${s.v},this)"><span class="lv">${s.v}</span><span class="ll">${s.l}</span></div>`});
+    h+=`</div></div>`;
+  });
+
+  const allDone=done===section.items.length;
+  h+=`<div class="nb"><button class="btn btn-s btn-sm" onclick="${backFn}">← Menu</button><div class="nc" id="bnc">${done}/${section.items.length} risposte</div><button class="btn btn-sm ${allDone?'btn-g':'btn-p'}" id="bnb" onclick="${nextFn}">${nextLabel}</button></div></div>`;
+  app.innerHTML=h;
+  updateGlobalBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pickQ(sid,n,v,el){
+  sClick();answers[sid][n]=v;
+  const card=el.closest('.qc');card.querySelectorAll('.lo').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');card.classList.add('ans');
+  // Update counters
+  const section=[...MOD_A,...MOD_B,SNODO_CARRIERA].find(s=>s.id===sid);
+  if(section){
+    const a=answers[sid]||{};
+    const done=section.items.filter(it=>a[it.n]!==undefined).length;
+    const snc=$('snc');if(snc)snc.textContent=done+'/'+section.items.length;
+    const bnc=$('bnc');if(bnc)bnc.textContent=done+'/'+section.items.length+' risposte';
+    if(done===section.items.length){sDone();toast('Sezione completata! ✨',2000)}
+  }
+  updateGlobalBar();
+}
+
+function openModA(idx){
+  curPhase='modA';curSection=idx;
+  const s=MOD_A[idx];
+  const hasNext=idx<MOD_A.length-1;
+  const nextFn=hasNext?`openModA(${idx+1})`:'showHub()';
+  const nextLabel=hasNext?'Avanti →':'✓ Menu';
+  renderSection(s,'showHub()',nextFn,nextLabel);
+}
+
+function openModB(idx){
+  curPhase='modB';curSection=idx;
+  const s=MOD_B[idx];
+  const hasNext=idx<MOD_B.length-1;
+  const nextFn=hasNext?`openModB(${idx+1})`:'showHub()';
+  const nextLabel=hasNext?'Avanti →':'✓ Menu';
+  renderSection(s,'showHub()',nextFn,nextLabel);
+}
+
+/* ===== UI: GATE ===== */
+/* ===== UI: SNODO (Interessi + Intenzione) ===== */
+function showSnodo(){
+  curPhase='snodo';
+  // Passo 1: se interessi non compilati → questionario interessi
+  if(Object.keys(snodoInteressi).length<26){
+    showSnodoInteressi();return;
+  }
+  // Passo 2: se carriera non compilata → questionario carriera
+  const carrAns=answers[SNODO_CARRIERA.id]||{};
+  if(Object.keys(carrAns).length<SNODO_CARRIERA.items.length){
+    showSnodoCarriera();return;
+  }
+  // Passo 3: calcola diagnostica e mostra risultato
+  if(!gateResult) computeGate();
+  showSnodoResult();
+}
+
+function showSnodoInteressi(){
+  const si=SNODO_INTERESSI;
+  if(!snodoInteressi)snodoInteressi={};
+  const done=si.items.filter(it=>snodoInteressi[it.n]!==undefined).length;
+
+  $('sticky-header').style.display='';$('progress-container').style.display='';
+  $('hT').textContent=si.icon+' '+si.title;
+  $('hS').textContent=si.subtitle;
+  $('hI').textContent=si.instruction;
+  const sn=$('stickyNav');sn.style.display='flex';
+  sn.innerHTML=`<span style="font-size:.78em;color:var(--text-sec)">${si.icon} ${si.title}</span><span class="nc" id="snc">${done}/${si.items.length}</span>`;
+
+  let h=`<div class="qsec" style="padding-top:90px">`;
+  h+=`<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow-sm)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span style="font-size:2em">${si.icon}</span><div><div style="font-family:'Playfair Display',serif;font-size:1.2em;color:var(--accent);font-weight:700">${si.title}</div><div style="font-size:.85em;color:var(--text-sec);margin-top:2px">${si.subtitle}</div></div></div><div style="font-size:.88em;color:var(--text-sec);background:var(--accent-bg);border-left:3px solid var(--accent);padding:10px 14px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;line-height:1.6">${si.instruction}</div></div>`;
+
+  let lastArea='';
+  si.items.forEach((it,idx)=>{
+    const area=AREAS.find(a=>a.id===it.a);
+    if(it.a!==lastArea){
+      lastArea=it.a;
+      h+=`<div style="background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;margin:14px 0 8px;font-weight:700;font-size:.85em;color:var(--accent)">${area?.icon||''} ${area?.name||it.a}</div>`;
+    }
+    const ans=snodoInteressi[it.n];const isAns=ans!==undefined;
+    h+=`<div class="qc ${isAns?'ans':''}" id="sqc${it.n}"><div class="qnum">DOMANDA ${it.n} di ${si.items.length}</div><div class="qt">${it.t}</div><div class="ls">`;
+    si.scale.forEach(s=>{h+=`<div class="lo ${ans===s.v?'sel':''}" onclick="pickSnodoInt(${it.n},${s.v},this)"><span class="lv">${s.v}</span><span class="ll">${s.l}</span></div>`});
+    h+=`</div></div>`;
+  });
+
+  const allDone=done===si.items.length;
+  h+=`<div class="nb"><button class="btn btn-s btn-sm" onclick="showHub()">← Menu</button><div class="nc" id="bnc">${done}/${si.items.length} risposte</div><button class="btn btn-sm ${allDone?'btn-g':'btn-p'}" onclick="${allDone?'showSnodoCarriera()':'toast(\\\'Completa tutte le domande\\\')'}">${allDone?'Avanti — Carriera →':'Completa per proseguire'}</button></div></div>`;
+  app.innerHTML=h;
+  updateGlobalBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pickSnodoInt(n,v,el){
+  sClick();snodoInteressi[n]=v;
+  const card=el.closest('.qc');card.querySelectorAll('.lo').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');card.classList.add('ans');
+  const si=SNODO_INTERESSI;
+  const done=si.items.filter(it=>snodoInteressi[it.n]!==undefined).length;
+  const snc=$('snc');if(snc)snc.textContent=done+'/'+si.items.length;
+  const bnc=$('bnc');if(bnc)bnc.textContent=done+'/'+si.items.length+' risposte';
+  if(done===si.items.length){sDone();toast('Interessi completati! ✨',2000)}
+  updateGlobalBar();
+}
+
+function showSnodoCarriera(){
+  curPhase='snodo';
+  const sc=SNODO_CARRIERA;
+  if(!answers[sc.id]) answers[sc.id]={};
+  renderSection(sc,'showHub()','showSnodoDiagnostica()','Genera diagnostica →');
+}
+
+function showSnodoDiagnostica(){
+  // Verifica completamento carriera
+  const carrAns=answers[SNODO_CARRIERA.id]||{};
+  if(Object.keys(carrAns).length<SNODO_CARRIERA.items.length){
+    toast('Completa tutte le domande sulla carriera');return;
+  }
+  gateResult=null; // ricalcola
+  computeGate();
+  showSnodoResult();
+}
+
+function showSnodoResult(){
+  curPhase='snodo';
+  $('sticky-header').style.display='none';$('progress-container').style.display='none';
+  const g=gateResult;
+  const pathClass=g.path==='A'?'path-a':(g.path==='B'?'path-b':'path-c');
+  const pathNames={A:'Continuità',B:'Complementarità',C:'Esplorazione aperta'};
+
+  // Colore prontezza
+  let prontCol='var(--green)';
+  if(g.prontezza<40) prontCol='var(--rose)';
+  else if(g.prontezza<65) prontCol='var(--amber)';
+
+  let h=`<div class="ws" style="padding:20px 0;text-align:left;max-width:680px;margin:0 auto">
+<h1 style="font-size:1.4em;text-align:center">🚦 <span>Diagnostica Snodo</span></h1>
+
+<div class="gate-card" style="text-align:left">
+<div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-bottom:16px">
+<div style="text-align:center"><div style="font-size:2em;font-weight:800;color:${prontCol}">${g.prontezza}%</div><div style="font-size:.75em;color:var(--text-sec)">Prontezza LM</div></div>
+<div style="text-align:center"><div style="font-size:2em;font-weight:800;color:var(--accent)">${g.centScore}%</div><div style="font-size:.75em;color:var(--text-sec)">Centramento triennale</div></div>
+<div style="text-align:center"><div style="font-size:2em;font-weight:800;color:var(--cyan)">${g.concentrazione}%</div><div style="font-size:.75em;color:var(--text-sec)">Concentrazione interessi</div></div>
+</div>
+
+<div class="path-badge ${pathClass}" style="display:block;text-align:center">Percorso calcolato: ${g.path} — ${pathNames[g.path]}</div>
+
+<div class="nt" style="margin-top:16px">${g.narrazione}</div>
+</div>
+
+<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px">
+<button class="btn btn-p" onclick="showAreaSelection()">Procedi — Scegli le aree →</button>
+<button class="btn btn-s btn-sm" onclick="overridePath()">Modifica percorso</button>
+<button class="btn btn-s btn-sm" onclick="gateResult=null;showSnodo()">↻ Ricalcola</button>
+<button class="btn btn-s btn-sm" onclick="showHub()">← Menu</button>
+</div></div>`;
+  app.innerHTML=h;
+}
+
+/* Possibilità di sovrascrivere il percorso calcolato */
+function overridePath(){
+  const pathNames={A:'Continuità',B:'Complementarità',C:'Esplorazione aperta'};
+  let h=`<div class="ws" style="padding:20px 0"><h1 style="font-size:1.4em">🔄 <span>Modifica percorso</span></h1>
+<p>Il percorso calcolato è <strong>${gateResult.path} — ${pathNames[gateResult.path]}</strong>. Puoi sovrascriverlo se non ti corrisponde.</p>
+<div style="max-width:520px;margin:20px auto">
+<div class="area-sel" onclick="setPathOverride('A')"><div class="as-name">A — Continuità</div><div class="as-desc">Privilegia le aree direttamente collegate alla tua triennale</div></div>
+<div class="area-sel" onclick="setPathOverride('B')"><div class="as-name">B — Complementarità</div><div class="as-desc">Privilegia le aree adiacenti e complementari</div></div>
+<div class="area-sel" onclick="setPathOverride('C')"><div class="as-name">C — Esplorazione aperta</div><div class="as-desc">Tutte le aree alla pari, ordinate per interesse dichiarato</div></div>
+</div>
+<div style="margin-top:16px"><button class="btn btn-s btn-sm" onclick="showSnodoResult()">← Torna alla diagnostica</button></div></div>`;
+  app.innerHTML=h;
+}
+
+function setPathOverride(newPath){
+  sClick();
+  gateResult.path=newPath;
+  gateResult.narrazione=gateResult.narrazione.replace(/<strong>Percorso suggerito:.*?<\/strong>/,
+    '<strong>Percorso modificato manualmente: '+newPath+' — '+(newPath==='A'?'Continuità':newPath==='B'?'Complementarità':'Esplorazione aperta')+'.</strong>');
+  showSnodoResult();
+}
+
+/* ===== UI: SELEZIONE AREE (nessun limite) ===== */
+function showAreaSelection(){
+  curPhase='areaSelect';
+  $('sticky-header').style.display='none';$('progress-container').style.display='none';
+  const affinities=calcAreaAffinity();
+  const chosen=[...selectedAreas];
+
+  // Stima volume domande
+  function stimaDomande(ids){
+    let tot=0;
+    ids.forEach(aId=>{tot+=LM_DB.filter(lm=>lm.a===aId).length*5});
+    return tot;
+  }
+
+  let h=`<div class="ws" style="padding:20px 0"><h1 style="font-size:1.4em">🗺️ <span>Selezione Aree</span></h1>
+<p>Seleziona le macro-aree da esplorare in profondità. Sono ordinate per affinità col tuo profilo. La scelta è tua: nessun limite, ma ogni area aggiunge domande.</p>
+<div id="volumeInfo" style="max-width:600px;margin:0 auto 12px;padding:10px 16px;background:var(--accent-bg);border-radius:var(--radius-sm);font-size:.82em;color:var(--accent);font-weight:600">Aree selezionate: ${chosen.length} · Domande aggiuntive stimate: ~${stimaDomande(chosen)}</div>
+<div style="max-width:600px;margin:0 auto" id="areaGrid">`;
+  affinities.forEach(af=>{
+    const isSel=chosen.includes(af.id);
+    const lmCount=LM_DB.filter(lm=>lm.a===af.id).length;
+    h+=`<div class="area-sel ${isSel?'chosen':''}" id="as_${af.id}" onclick="toggleArea('${af.id}')">
+<span class="as-icon">${af.icon}</span>
+<div class="as-name">${af.name}</div>
+<div class="as-desc">${af.desc} · ${lmCount} LM · ${lmCount*5} domande</div>
+<span class="as-pct">${af.pct}%</span>
+<div class="as-bar"><div class="as-bf" style="width:${af.pct}%"></div></div>
+</div>`;
+  });
+  h+=`</div>
+<div id="areaActions" style="margin-top:16px;display:flex;gap:10px;justify-content:center">
+<button class="btn btn-p" id="confirmAreasBtn" onclick="confirmAreas()" ${chosen.length===0?'disabled style="opacity:.5"':''}>Conferma ${chosen.length} ${chosen.length===1?'area':'aree'} →</button>
+<button class="btn btn-s btn-sm" onclick="showHub()">← Menu</button>
+</div></div>`;
+  app.innerHTML=h;
+  window._tempAreas=chosen;
+}
+
+function toggleArea(aId){
+  sClick();
+  let chosen=window._tempAreas||[];
+  const idx=chosen.indexOf(aId);
+  if(idx>=0){chosen.splice(idx,1)}
+  else{chosen.push(aId)}
+  window._tempAreas=chosen;
+  // Aggiorna interfaccia
+  document.querySelectorAll('.area-sel').forEach(el=>{
+    const id=el.id.replace('as_','');
+    el.classList.toggle('chosen',chosen.includes(id));
+  });
+  const btn=$('confirmAreasBtn');
+  if(btn){
+    btn.textContent=`Conferma ${chosen.length} ${chosen.length===1?'area':'aree'} →`;
+    btn.disabled=chosen.length===0;btn.style.opacity=chosen.length===0?'.5':'1';
+  }
+  // Aggiorna stima volume
+  let tot=0;chosen.forEach(id=>{tot+=LM_DB.filter(lm=>lm.a===id).length*5});
+  const vi=$('volumeInfo');
+  if(vi) vi.innerHTML=`Aree selezionate: ${chosen.length} · Domande aggiuntive stimate: ~${tot}` + (tot>100?' · <span style="color:var(--amber)">Volume significativo: prevedi 30+ minuti extra</span>':'');
+}
+
+function confirmAreas(){
+  const chosen=window._tempAreas||[];
+  if(chosen.length===0){toast('Seleziona almeno un\'area');return}
+  selectedAreas=chosen;
+  selectedAreas.forEach(aId=>{if(!adaptiveAnswers[aId])adaptiveAnswers[aId]={}});
+  sNav();showHub();
+}
+
+/* ===== UI: ADAPTIVE MODULE ===== */
+function openAdaptive(areaId){
+  curPhase='adaptive';
+  const area=AREAS.find(a=>a.id===areaId);
+  const lms=LM_DB.filter(lm=>lm.a===areaId);
+  if(!adaptiveAnswers[areaId])adaptiveAnswers[areaId]={};
+  const aa=adaptiveAnswers[areaId];
+
+  $('sticky-header').style.display='';$('progress-container').style.display='';
+  $('hT').textContent=area.icon+' '+area.name;
+  $('hS').textContent='Esplorazione lauree magistrali';
+  $('hI').textContent='Per ogni LM, 5 domande: curiosità disciplinare, scenario professionale, approccio metodologico, contesto organizzativo, identificazione con la comunità.';
+  const sn=$('stickyNav');sn.style.display='flex';
+  let totalLmDone=0;lms.forEach(lm=>{const la=aa[lm.c]||{};if(Object.keys(la).length===5)totalLmDone++});
+  sn.innerHTML=`<span style="font-size:.78em;color:var(--text-sec)">${area.icon} ${area.name}</span><span class="nc" id="snc">${totalLmDone}/${lms.length} LM</span>`;
+
+  const scale=[{v:0,l:'Per niente'},{v:1,l:'Poco'},{v:2,l:'Abbastanza'},{v:3,l:'Molto'},{v:4,l:'Moltissimo'}];
+  const templates=[
+    (lm)=>'Quanto ti incuriosisce approfondire '+lm.cur+'?',
+    (lm)=>'Quanto ti vedi a lavorare come '+lm.pro+'?',
+    (lm)=>'Quanto ti attrae un percorso basato su '+lm.met+'?',
+    (lm)=>'Quanto ti piacerebbe operare in '+lm.ctx+'?',
+    (lm)=>'Quanto ti identifichi con '+lm.com+'?'
+  ];
+  const tLabels=['Curiosità disciplinare','Scenario professionale','Approccio metodologico','Contesto organizzativo','Comunità disciplinare'];
+
+  let h=`<div class="qsec" style="padding-top:90px">`;
+  h+=`<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow-sm)"><div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><span style="font-size:2em">${area.icon}</span><div><div style="font-family:'Playfair Display',serif;font-size:1.2em;color:var(--accent);font-weight:700">${area.name}</div><div style="font-size:.85em;color:var(--text-sec);margin-top:2px">${lms.length} lauree magistrali da esplorare · ${lms.length*5} domande</div></div></div></div>`;
+
+  lms.forEach((lm,li)=>{
+    if(!aa[lm.c])aa[lm.c]={};
+    const lmA=aa[lm.c];
+    const lmDone=Object.keys(lmA).length===5;
+    h+=`<div style="background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin:16px 0 8px;font-weight:700;font-size:.9em;color:var(--accent)">${lm.c} — ${lm.n} ${lmDone?'✓':''}</div>`;
+    templates.forEach((tFn,qi)=>{
+      const qn=qi+1;
+      const ans=lmA[qn];const isAns=ans!==undefined;
+      h+=`<div class="qc ${isAns?'ans':''}" id="aqc_${lm.c}_${qn}"><div class="qnum">${tLabels[qi]}</div><div class="qt">${tFn(lm)}</div><div class="ls">`;
+      scale.forEach(s=>{h+=`<div class="lo ${ans===s.v?'sel':''}" onclick="pickAdaptive('${areaId}','${lm.c}',${qn},${s.v},this)"><span class="lv">${s.v}</span><span class="ll">${s.l}</span></div>`});
+      h+=`</div></div>`;
+    });
+  });
+
+  h+=`<div class="nb"><button class="btn btn-s btn-sm" onclick="showHub()">← Menu</button><div class="nc" id="bnc">${totalLmDone}/${lms.length} LM completate</div><button class="btn btn-sm ${totalLmDone===lms.length?'btn-g':'btn-p'}" onclick="showHub()">✓ Menu</button></div></div>`;
+  app.innerHTML=h;
+  updateGlobalBar();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function pickAdaptive(areaId,lmCode,qn,v,el){
+  sClick();
+  if(!adaptiveAnswers[areaId])adaptiveAnswers[areaId]={};
+  if(!adaptiveAnswers[areaId][lmCode])adaptiveAnswers[areaId][lmCode]={};
+  adaptiveAnswers[areaId][lmCode][qn]=v;
+  const card=el.closest('.qc');card.querySelectorAll('.lo').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');card.classList.add('ans');
+  // Check if this LM is complete
+  const la=adaptiveAnswers[areaId][lmCode];
+  if(Object.keys(la).length===5){sDone();toast('LM completata! ✨',1500)}
+  // Update counter
+  const lms=LM_DB.filter(lm=>lm.a===areaId);
+  const aa=adaptiveAnswers[areaId];
+  let totalLmDone=0;lms.forEach(lm=>{const a2=aa[lm.c]||{};if(Object.keys(a2).length===5)totalLmDone++});
+  const snc=$('snc');if(snc)snc.textContent=totalLmDone+'/'+lms.length+' LM';
+  const bnc=$('bnc');if(bnc)bnc.textContent=totalLmDone+'/'+lms.length+' LM completate';
+  updateGlobalBar();
+}
+
+function updateGlobalBar(){
+  const total=getTotalQuestions(),done=getAnsweredCount();
+  const gPct=total?Math.round(done/total*100):0;
+  const pb=$('pbi');if(pb){pb.style.width=gPct+'%';const pp=$('pbi-pct');if(pp)pp.textContent=gPct+'%';}
+}
+
+/* ===== REPORT ===== */
+function showReport(){
+  sCeleb();charts.forEach(c=>{try{c.destroy()}catch(e){}});charts=[];
+  $('sticky-header').style.display='none';$('progress-container').style.display='none';
+  const sc=calcAllModAScores();
+  const modBsc=calcModBScores();
+  const adaptSc=calcAdaptiveScores();
+  const fullName=(userData.nome+(userData.cognome?' '+userData.cognome:'')).trim()||'Utente';
+  const displayDate=userData.data?new Date(userData.data).toLocaleDateString('it-IT'):new Date().toLocaleDateString('it-IT');
+
+  let h=`<div class="rp"><div class="ph"><h1>🎓 Report Orientamento Laurea Magistrale</h1><p>${fullName} · ${displayDate} · ${userData.classeTri||'—'}</p></div>`;
+  h+=`<div class="tb no-print"><button class="btn btn-p btn-sm" onclick="showHub()">← Menu</button><button class="btn btn-s btn-sm" onclick="window.print()">🖨 Stampa</button><button class="btn btn-s btn-sm" onclick="saveState()">💾 JSON</button><button class="btn btn-s btn-sm" onclick="showOpReport()">👨‍🏫 Operatore</button><button class="btn btn-s btn-sm" onclick="exMD()">📄 Markdown</button></div>`;
+
+  // Gate summary
+  if(gateResult){
+    const pathNames={A:'Continuità',B:'Complementarità',C:'Esplorazione aperta'};
+    h+=`<div class="rc"><h3>🚦 Snodo — Diagnostica</h3><div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><div><strong>Prontezza LM:</strong> ${gateResult.prontezza}%</div><div><strong>Centramento:</strong> ${gateResult.centScore}%</div><div><strong>Percorso:</strong> ${gateResult.path} — ${pathNames[gateResult.path]}</div><div><strong>Concentrazione:</strong> ${gateResult.concentrazione}%</div></div>`;
+    h+=`<div class="nt" style="margin-top:12px">${gateResult.narrazione}</div>`;
+    h+=`</div>`;
+  }
+
+  // LM Ranking
+  if(Object.keys(adaptSc).length>0){
+    h+=`<div class="rc"><h3>🏆 Ranking Lauree Magistrali</h3><p style="font-size:.82em;color:var(--text-sec);margin-bottom:12px">Classifica basata sulle tue risposte nell'esplorazione adattiva.</p>`;
+    let allLM=[];
+    Object.entries(adaptSc).forEach(([aId,lms])=>{
+      const area=AREAS.find(a=>a.id===aId);
+      lms.forEach(lm=>{allLM.push({...lm,areaName:area?.name||aId,areaIcon:area?.icon||''})});
+    });
+    allLM.sort((a,b)=>b.pct-a.pct);
+    allLM.forEach((lm,i)=>{
+      const lmData=LM_DB.find(l=>l.c===lm.code);
+      const avail=ATENEI.filter(at=>at.aree.includes(lmData?.a||'')).map(at=>at.nome).join(', ');
+      h+=`<div class="sbc"><div class="sbl"><span>${i+1}. ${lm.areaIcon} ${lm.code} — ${lm.name}${i<5?' ⭐':''}</span><span>${lm.pct}%</span></div><div class="sb"><div class="sbf" style="width:${lm.pct}%;${i<5?'background:linear-gradient(90deg,var(--amber),var(--green))':''}">​</div></div></div>`;
+      if(i<8 && avail) h+=`<div style="margin:-4px 0 8px 16px;font-size:.75em;color:var(--text-sec)">Disponibile in: ${avail}</div>`;
+    });
+
+    // Radar chart for top areas
+    h+=`<div class="cc"><canvas id="chRank"></canvas></div>`;
+    h+=`</div>`;
+  }
+
+  // Module A sections
+  MOD_A.forEach((section,idx)=>{
+    const s=sc[section.id];if(!s)return;
+    h+=`<div class="rc"><h3>${section.icon} ${section.title}</h3><div class="cc"><canvas id="chA${idx}"></canvas></div>`;
+    Object.entries(s).forEach(([k,v])=>{
+      h+=`<div class="sbc"><div class="sbl"><span>${k}${v.neg?' ⚠':''}</span><span>${v.pct}%</span></div><div class="sb"><div class="sbf" style="width:${v.pct}%;${v.neg?'background:linear-gradient(90deg,var(--rose),var(--amber))':''}">​</div></div></div>`;
+    });
+    h+=`<div class="nt">${genNarr(section.id,s)}</div></div>`;
+  });
+
+  // Module B
+  modBsc.forEach((ms,idx)=>{
+    const section=MOD_B[idx];
+    h+=`<div class="rc"><h3>${section.icon} ${section.title}</h3>`;
+    Object.entries(ms.scores).forEach(([k,v])=>{
+      h+=`<div class="sbc"><div class="sbl"><span>${k}</span><span>${v.pct}%</span></div><div class="sb"><div class="sbf" style="width:${v.pct}%">​</div></div></div>`;
+    });
+    h+=`</div>`;
+  });
+
+  // Triennale comparison (if imported)
+  if(triennaleData){
+    h+=`<div class="compare-card"><h4>📋 Come sei cambiato — Confronto con il profilo triennale</h4>`;
+    h+=`<div class="nt">${genTriennaleComparison(sc)}</div></div>`;
+  }
+
+  h+=`</div>`;
+  app.innerHTML=h;
+
+  // Draw charts
+  setTimeout(()=>{
+    // LM Ranking radar
+    if(Object.keys(adaptSc).length>0){
+      const allLM=[];
+      Object.entries(adaptSc).forEach(([aId,lms])=>{lms.forEach(lm=>allLM.push(lm))});
+      allLM.sort((a,b)=>b.pct-a.pct);
+      const top=allLM.slice(0,8);
+      const cv=document.getElementById('chRank');
+      if(cv){
+        const ch=new Chart(cv,{type:'bar',data:{labels:top.map(l=>l.code),datasets:[{label:'Affinità',data:top.map(l=>l.pct),backgroundColor:top.map((_,i)=>`hsla(${((i*360/top.length)+220)%360},65%,55%,.7)`),borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100},x:{ticks:{font:{size:9}}}}}});
+        charts.push(ch);
+      }
+    }
+    // Module A charts
+    MOD_A.forEach((section,idx)=>{
+      const s=sc[section.id];if(!s)return;
+      const cv=document.getElementById('chA'+idx);if(!cv)return;
+      const labels=Object.keys(s),data=labels.map(k=>s[k].pct);
+      const colors=labels.map((_,i)=>`hsla(${((i*360/labels.length)+220)%360},65%,55%,.7)`);
+      const ch=new Chart(cv,{type:labels.length>5?'radar':'bar',data:{labels,datasets:[{label:section.title,data,backgroundColor:colors,borderColor:colors.map(c=>c.replace('.7)','.9)')),borderWidth:2,fill:labels.length>5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:labels.length>5?{r:{min:0,max:100,ticks:{stepSize:25}}}:{y:{min:0,max:100},x:{ticks:{font:{size:9}}}}}});
+      charts.push(ch);
+    });
+  },250);
+}
+
+/* ===== NARRATIVE GENERATORS ===== */
+function genNarr(id,sc){
+  const hi=a=>sc[a]?.pct>=65, lo=a=>sc[a]?.pct<35;
+  let t='';
+  switch(id){
+  case 'centramento':
+    const centScore=calcCentramento();
+    if(centScore>=70) t='Profilo con alto centramento sulla triennale ('+centScore+'%). La scelta appare consapevole e confermata dall\'esperienza. La magistrale può costruire con fiducia su questa base.';
+    else if(centScore>=45) t='Centramento moderato ('+centScore+'%). La triennale ha dato strumenti ma lascia spazi di evoluzione. La magistrale è un\'opportunità per consolidare o riorientare.';
+    else t='Centramento basso ('+centScore+'%). Segnali significativi di insoddisfazione o evoluzione rispetto alla scelta triennale. La magistrale è un punto di svolta: va scelta con particolare attenzione alla coerenza con chi sei oggi, non con chi eri tre anni fa.';
+    if(hi('Biforcazioni')) t+=' Biforcazioni mancate rilevanti: esplorare le aree non scelte potrebbe essere strategico.';
+    break;
+  case 'locus':
+    if(hi('Interno')&&lo('Esterno')) t='Forte locus interno. Ti percepisci artefice del tuo percorso: risorsa preziosa in un biennio che richiede autonomia e iniziativa.';
+    else if(hi('Esterno')) t='Prevalenza di attribuzione esterna. La magistrale richiede alta agentività: consapevolezza utile per attivare strategie compensative.';
+    else t='Equilibrio tra locus interno ed esterno. Profilo realistico che bilancia senso di responsabilità personale e consapevolezza del contesto.';
+    break;
+  case 'coping':
+    if(hi('Attivo')&&lo('Evitante')) t='Stile di coping prevalentemente attivo: affronti le difficoltà con metodo. Profilo adatto alla complessità della magistrale.';
+    else if(hi('Evitante')) t='Componente evitante significativa. La magistrale comporta carichi concentrati e autonomia: sviluppare strategie attive è prioritario.';
+    else if(hi('Regolazione')) t='Buona capacità di regolazione emotiva e metacognitiva. Risorsa preziosa per gestire la pressione del biennio.';
+    else t='Profilo di coping distribuito. Flessibilità potenziale, ma nessuna strategia dominante.';
+    break;
+  case 'softskills':
+    const topS=Object.entries(sc).sort((a,b)=>b[1].pct-a[1].pct).slice(0,3);
+    const weakS=Object.entries(sc).filter(([k,v])=>v.pct<40).map(([k])=>k);
+    t='Competenze più sviluppate: '+topS.map(([k,v])=>'<strong>'+k+'</strong> ('+v.pct+'%)').join(', ')+'. ';
+    if(weakS.length) t+='Da potenziare per la magistrale: '+weakS.join(', ')+'.';
+    else t+='Profilo competenziale solido su tutti gli assi.';
+    break;
+  case 'apprendimento':
+    const topA=Object.entries(sc).sort((a,b)=>b[1].pct-a[1].pct).slice(0,2);
+    t='Stili predominanti: '+topA.map(([k,v])=>'<strong>'+k+'</strong> ('+v.pct+'%)').join(' e ')+'. ';
+    if(sc['Ricerca']?.pct>sc['Applicazione']?.pct+15) t+='Orientamento marcato verso la ricerca: considera magistrali con forte componente di tesi sperimentale e possibilità di dottorato.';
+    else if(sc['Applicazione']?.pct>sc['Ricerca']?.pct+15) t+='Orientamento marcato verso l\'applicazione: cerca magistrali con tirocini strutturati, project work e placement aziendale.';
+    else t+='Equilibrio tra ricerca e applicazione: profilo flessibile che può adattarsi a diverse tipologie di magistrale.';
+    break;
+  default: t='Analisi non disponibile.'
+  }
+  return t;
+}
+
+function genTriennaleComparison(currentSc){
+  if(!triennaleData) return '';
+  let t='<strong>Confronto con il profilo triennale importato.</strong><br><br>';
+  // Compare locus
+  const triSc=triennaleData.answers||{};
+  if(triSc.locus && currentSc.locus){
+    t+='<strong>Locus of Control:</strong> ';
+    const triInt=Object.values(triSc.locus).filter((_,i)=>i%2===0).reduce((s,v)=>s+(v||0),0);
+    const curInt=currentSc.locus?.['Interno']?.pct||50;
+    t+=`Il tuo locus interno attuale è ${curInt}%. `;
+    t+='Il confronto con il profilo triennale permette di valutare se la tua percezione di agentività si è consolidata o indebolita nel percorso.<br><br>';
+  }
+  if(triSc.coping && currentSc.coping){
+    t+='<strong>Coping:</strong> ';
+    const curAtt=currentSc.coping?.['Attivo']?.pct||50;
+    t+=`Il tuo coping attivo attuale è ${curAtt}%. Confronta con il profilo precedente per verificare l'evoluzione delle tue strategie di fronteggiamento.<br><br>`;
+  }
+  t+='<em>Nota: il confronto è indicativo. I due questionari misurano costrutti analoghi ma non identici, adattati al diverso stadio del percorso.</em>';
+  return t;
+}
+
+/* ===== OPERATOR REPORT ===== */
+function showOpReport(){
+  const sc=calcAllModAScores();
+  const modBsc=calcModBScores();
+  const adaptSc=calcAdaptiveScores();
+  const fullName=(userData.nome+(userData.cognome?' '+userData.cognome:'')).trim()||'N/D';
+  const cl=getClasseTri(userData.classeTri);
+  let t='=== REPORT OPERATORE - ORIENTAMENTO LAUREA MAGISTRALE ===\n';
+  t+='Data: '+(userData.data||new Date().toLocaleDateString('it-IT'))+'\n';
+  t+='Nome: '+fullName+'\nEtà: '+(userData.eta||'N/D')+'\n';
+  t+='Triennale: '+(userData.classeTri||'N/D')+(cl?' — '+cl.n:'')+'\nVoto: '+(userData.voto||'N/D')+'\n\n';
+
+  if(gateResult){
+    t+='--- SNODO ---\nProntezza LM: '+gateResult.prontezza+'%\nCentramento: '+gateResult.centScore+'%\nConcentrazione interessi: '+gateResult.concentrazione+'%\nPercorso: '+gateResult.path+'\n';
+    if(gateResult.segnali?.length) gateResult.segnali.forEach(s=>{t+='SEGNALE: '+s.replace(/<[^>]+>/g,'')+'\n'});
+    t+='\n';
+  }
+
+  t+='--- ISTRUZIONI PER L\'IA ---\nAnalizza questo profilo per orientamento alla laurea magistrale.\n[R] = scala inversa. [NEG] = area barriere.\n\n';
+
+  MOD_A.forEach(section=>{
+    const s=sc[section.id];if(!s)return;
+    t+='=== '+section.title.toUpperCase()+' ===\n';
+    section.items.forEach(it=>{const v=(answers[section.id]||{})[it.n];t+='  '+it.n+'. '+it.t+(it.r?' [R]':'')+' => '+(v!==undefined?v:'N/R')+'\n'});
+    t+='\nPunteggi:\n';
+    Object.entries(s).forEach(([k,v])=>{t+='  '+k+(v.neg?' [NEG]':'')+': '+v.sum+'/'+v.max+' ('+v.pct+'%)\n'});
+    t+='\n';
+  });
+
+  if(Object.keys(adaptSc).length>0){
+    t+='=== RANKING LAUREE MAGISTRALI ===\n';
+    let allLM=[];
+    Object.entries(adaptSc).forEach(([aId,lms])=>{lms.forEach(lm=>allLM.push({...lm,area:aId}))});
+    allLM.sort((a,b)=>b.pct-a.pct);
+    allLM.forEach((lm,i)=>{t+=(i+1)+'. '+lm.code+' — '+lm.name+': '+lm.pct+'%\n'});
+    t+='\n';
+  }
+
+  modBsc.forEach(ms=>{
+    const section=MOD_B.find(s=>s.id===ms.id);
+    t+='=== '+section.title.toUpperCase()+' ===\n';
+    Object.entries(ms.scores).forEach(([k,v])=>{t+='  '+k+': '+v.pct+'%\n'});
+    t+='\n';
+  });
+
+  // Prompts
+  const topLM=Object.values(adaptSc).flat().sort((a,b)=>b.pct-a.pct).slice(0,3);
+  t+='=== PROMPT IA PRE-CONFEZIONATI ===\n\n';
+  t+='PROMPT 1 – Analisi Completa:\n"Profilo studente '+fullName+' per orientamento magistrale.\n';
+  t+='Triennale: '+(userData.classeTri||'N/D')+'\nGate: Path '+(gateResult?.path||'N/D')+', Centramento '+(gateResult?.centScore||'N/D')+'%\n';
+  if(topLM.length) t+='Top LM: '+topLM.map(l=>l.code+' '+l.pct+'%').join(', ')+'\n';
+  t+='Analizza coerenza profilo-scelta, punti di forza, aree critiche. Suggerisci 3 azioni concrete."\n\n';
+
+  t+='PROMPT 2 – Percorso Praticabile:\n"Per '+(topLM[0]?.code||'[LM]')+', cerca programmi accessibili dalla Lombardia.\n';
+  t+='Per ogni ateneo: requisiti, test, costi, placement, doppi titoli disponibili."\n\n';
+
+  t+='=== FINE ===\n';
+
+  $('opT').value=t;$('opM').classList.add('act');
+}
+
+function cpOp(){navigator.clipboard.writeText($('opT').value).then(()=>toast('Copiato! ✓')).catch(()=>{$('opT').select();document.execCommand('copy');toast('Copiato! ✓')})}
+function clMo(){$('opM').classList.remove('act')}
+
+/* ===== EXPORT MARKDOWN ===== */
+function exMD(){
+  const sc=calcAllModAScores();const adaptSc=calcAdaptiveScores();
+  const fullName=(userData.nome+(userData.cognome?' '+userData.cognome:'')).trim()||'Utente';
+  let md='# Report Orientamento Laurea Magistrale\n\n';
+  md+='**Utente:** '+fullName+' | **Data:** '+new Date().toLocaleDateString('it-IT')+'\n';
+  md+='**Triennale:** '+(userData.classeTri||'N/D')+'\n\n';
+  if(gateResult) md+='## 🚦 Gate\nCentramento: '+gateResult.centScore+'% | Path: '+gateResult.path+'\n\n';
+  if(Object.keys(adaptSc).length>0){
+    md+='## 🏆 Ranking LM\n\n';
+    let allLM=[];Object.entries(adaptSc).forEach(([aId,lms])=>{lms.forEach(lm=>allLM.push(lm))});
+    allLM.sort((a,b)=>b.pct-a.pct);
+    allLM.forEach((lm,i)=>{md+=(i+1)+'. **'+lm.code+' — '+lm.name+'**: '+lm.pct+'%\n'});
+    md+='\n';
+  }
+  MOD_A.forEach(section=>{
+    const s=sc[section.id];if(!s)return;
+    md+='## '+section.icon+' '+section.title+'\n\n';
+    Object.entries(s).forEach(([k,v])=>{md+='- **'+k+'**: '+v.pct+'%'+(v.neg?' ⚠':'')+'\n'});
+    md+='\n> '+genNarr(section.id,s).replace(/<[^>]+>/g,'')+'\n\n';
+  });
+  const blob=new Blob([md],{type:'text/markdown'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='orientamento_LM_'+(userData.nome||'utente')+'_'+new Date().toISOString().slice(0,10)+'.md';
+  a.click();toast('Markdown esportato! ✓');
+}
+
+/* ===== INIT ===== */
+window.addEventListener('scroll',()=>{const h=$('sticky-header');if(!h||h.style.display==='none')return;if(window.scrollY>70)h.classList.add('compact');else h.classList.remove('compact')});
+showWelcome();
+</script>
+</body>
+</html>
